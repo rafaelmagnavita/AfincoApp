@@ -48,12 +48,12 @@ namespace AfincoApp.Controllers
         // obter mais detalhes, veja https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(string login, string senha)
+        public ActionResult Login(Usuario usuario)
         {
             try
             {
-                Usuario usuario = db.Usuarios.Where(a => a.Login == login).FirstOrDefault();
-                if (usuario != null && usuario.Senha == senha)
+                var usuarioexiste = db.Usuarios.Where(a => a.Login == usuario.Login).FirstOrDefault();
+                if (usuarioexiste != null && usuarioexiste.Senha == usuario.Senha)
                 {
                     return RedirectToAction("Index", "Home");
                 }
