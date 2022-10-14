@@ -1,47 +1,58 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
-    <title>@ViewBag.Title - Meu Aplicativo ASP.NET</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+    <title>@ViewBag.Title - Afinco Web App</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    @{var tipo = Session["usuario"]; }
-        @if (tipo != null)
-        {
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Nome do aplicativo", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Início", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Sobre", "About", "Home")</li>
 
-                </ul>
-                <a class="btn btn-danger" href="@Url.Action("LogOut", "Usuarios")">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                </a>
+    @{ var tipo = Session["usuario"];}
+
+    @if (tipo != null)
+    {
+        <nav class="navbar navbar-dark fixed-top bg-primary mb-2">
+
+            <a class="navbar-brand">
+                <img src="~/Img/logo-principal-afinco.png" width="45" height="45" class="d-inline-block align-top" alt="">
+            </a>
+
+            <div class="navbar ">
+                <div class="nav-item float-left nav-op">
+                    <a class="btn btn-primary" href="@Url.Action("Index", "Home")">
+                        <span>
+                            <i class="fas fa-home nav-op"></i>
+                        </span>
+                    </a>
+                    <a class="btn btn-primary" href="@Url.Action("Create", "Usuarios")">
+                        <span>
+                            <i class="fas fa-search nav-op"></i>
+                        </span>
+                    </a>
+                    <a class="btn btn-primary" href="@Url.Action("LogOut", "Usuarios")">
+                        <span>
+                            <i class="fas fa-sign-out-alt nav-op"></i>
+                        </span>
+                    </a>
+                </div>
             </div>
-        </div>
-    </div>
-        }
+        </nav>
+    }
+
+
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Meu Aplicativo ASP.NET</p>
-        </footer>
+        @*<footer>
+                <p>&copy; @DateTime.Now.Year - Meu Aplicativo ASP.NET</p>
+            </footer>*@
     </div>
 
     @Scripts.Render("~/bundles/jquery")

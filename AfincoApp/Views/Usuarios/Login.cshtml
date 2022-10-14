@@ -15,16 +15,17 @@
 }
 
 <div>
-    @*<div class="text-center mt-5">
+    <div class="text-center mt-5 mb-4">
         <div class="m-auto">
             <div>
-                <img style="width: 50%; height: 50%;" src="~/Img/ECPNG.png" />
+                <img src="~/Img/logo-principal-afinco.png" />
             </div>
         </div>
-    </div>*@
+    </div>
 
+    <hr />
 
-    <div class="text-center mb-4">
+    <div class="text-center mt-5 mb-4">
         @using (Html.BeginForm("Login", "Usuarios", FormMethod.Post, new { @class = "form-signin" }))
         {
             //cria a tag do formulário
