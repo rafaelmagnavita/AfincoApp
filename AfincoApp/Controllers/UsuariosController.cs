@@ -21,22 +21,38 @@ namespace AfincoApp.Controllers
         // GET: Usuarios
         public ActionResult Index()
         {
-            return View(db.Usuarios.ToList());
+            try
+            {
+                return View(db.Usuarios.ToList());
+            }
+            catch (Exception ex)
+            {
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
+            }
         }
 
         // GET: Usuarios/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Usuario usuario = db.Usuarios.Find(id);
+                if (usuario == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(usuario);
             }
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
             }
-            return View(usuario);
         }
 
         public ActionResult Login()
@@ -68,8 +84,8 @@ namespace AfincoApp.Controllers
             }
             catch (Exception ex)
             {
-                Common.LogErros("Erro em Login-Post: " + ex.Message);
-                throw;
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View();
             }
         }
 
@@ -85,7 +101,7 @@ namespace AfincoApp.Controllers
             catch (Exception ex)
             {
                 Common.LogErros("LogOut: " + ex.Message);
-                throw;
+                return View("~/Views/Home/Index.cshtml");
             }
 
         }
@@ -93,7 +109,16 @@ namespace AfincoApp.Controllers
         // GET: Usuarios/Create
         public ActionResult Create()
         {
-            return View();
+            try
+            {
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+                Common.LogErros("LogOut: " + ex.Message);
+                return View("~/Views/Home/Index.cshtml");
+            }
         }
 
         // POST: Usuarios/Create
@@ -103,29 +128,47 @@ namespace AfincoApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "UsuarioID,Nome,Sobrenome,Login,Senha")] Usuario usuario)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Usuarios.Add(usuario);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Usuarios.Add(usuario);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                return View(usuario);
+            }
+            catch (Exception ex)
+            {
+                Common.LogErros("LogOut: " + ex.Message);
+                return View("~/Views/Home/Index.cshtml");
             }
 
-            return View(usuario);
         }
 
         // GET: Usuarios/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Usuario usuario = db.Usuarios.Find(id);
+                if (usuario == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(usuario);
             }
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogErros("LogOut: " + ex.Message);
+                return View("~/Views/Home/Index.cshtml");
             }
-            return View(usuario);
+
         }
 
         // POST: Usuarios/Edit/5
@@ -135,28 +178,45 @@ namespace AfincoApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "UsuarioID,Nome,Sobrenome,Login,Senha")] Usuario usuario)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(usuario).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(usuario).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(usuario);
             }
-            return View(usuario);
+            catch (Exception ex)
+            {
+                Common.LogErros("LogOut: " + ex.Message);
+                return View("~/Views/Home/Index.cshtml");
+            }
         }
 
         // GET: Usuarios/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Usuario usuario = db.Usuarios.Find(id);
+                if (usuario == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(usuario);
             }
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogErros("LogOut: " + ex.Message);
+                return View("~/Views/Home/Index.cshtml");
             }
-            return View(usuario);
+
         }
 
         // POST: Usuarios/Delete/5
@@ -164,10 +224,19 @@ namespace AfincoApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Usuario usuario = db.Usuarios.Find(id);
-            db.Usuarios.Remove(usuario);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                Usuario usuario = db.Usuarios.Find(id);
+                db.Usuarios.Remove(usuario);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Common.LogErros("LogOut: " + ex.Message);
+                return View("~/Views/Home/Index.cshtml");
+            }
+
         }
 
         protected override void Dispose(bool disposing)

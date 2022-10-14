@@ -126,7 +126,10 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BalancosController.cs" />
+    <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MovimentacoesController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="DAL\AfincoContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -234,6 +237,21 @@
     <Content Include="Views\Usuarios\Edit.cshtml" />
     <Content Include="Views\Usuarios\Index.cshtml" />
     <Content Include="Views\Usuarios\Login.cshtml" />
+    <Content Include="Views\Clientes\Create.cshtml" />
+    <Content Include="Views\Clientes\Delete.cshtml" />
+    <Content Include="Views\Clientes\Details.cshtml" />
+    <Content Include="Views\Clientes\Edit.cshtml" />
+    <Content Include="Views\Clientes\Index.cshtml" />
+    <Content Include="Views\Balancos\Create.cshtml" />
+    <Content Include="Views\Balancos\Delete.cshtml" />
+    <Content Include="Views\Balancos\Details.cshtml" />
+    <Content Include="Views\Balancos\Edit.cshtml" />
+    <Content Include="Views\Balancos\Index.cshtml" />
+    <Content Include="Views\Movimentacoes\Create.cshtml" />
+    <Content Include="Views\Movimentacoes\Delete.cshtml" />
+    <Content Include="Views\Movimentacoes\Details.cshtml" />
+    <Content Include="Views\Movimentacoes\Edit.cshtml" />
+    <Content Include="Views\Movimentacoes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
