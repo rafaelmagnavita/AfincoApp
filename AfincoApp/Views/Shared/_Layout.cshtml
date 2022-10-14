@@ -9,6 +9,9 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
+    @{var tipo = Session["usuario"]; }
+        @if (tipo != null)
+        {
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -23,11 +26,15 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Início", "Index", "Home")</li>
                     <li>@Html.ActionLink("Sobre", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contato", "Contact", "Home")</li>
+
                 </ul>
+                <a class="btn btn-primary" href="@Url.Action("LogOut", "Usuarios")">
+                    oiii
+                </a>
             </div>
         </div>
     </div>
+        }
     <div class="container body-content">
         @RenderBody()
         <hr />

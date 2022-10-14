@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using AfincoApp.DAL;
 using AfincoApp.Models;
 using AfincoApp.Utils;
@@ -55,6 +56,11 @@ namespace AfincoApp.Controllers
                 var usuarioexiste = db.Usuarios.Where(a => a.Login == usuario.Login).FirstOrDefault();
                 if (usuarioexiste != null && usuarioexiste.Senha == usuario.Senha)
                 {
+                    Session["usuario"] = usuarioexiste;
+                    var ticket = FormsAuthentication.Encrypt(new FormsAuthenticationTicket(
+                    1, usuarioexiste.Nome, DateTime.Now, DateTime.Now.AddHours(12), true, usuarioexiste.Tipo.ToString()));
+                    var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, ticket);
+                    Response.Cookies.Add(cookie);
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("", "Login ou Senha Incorretos");
@@ -65,6 +71,23 @@ namespace AfincoApp.Controllers
                 Common.LogErros("Erro em Login-Post: " + ex.Message);
                 throw;
             }
+        }
+
+        public ActionResult LogOut()
+        {
+            try
+            {
+                Session.Clear();
+                Session.Abandon();
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Login", "Usuarios");
+            }
+            catch (Exception ex)
+            {
+                Common.LogErros("LogOut: " + ex.Message);
+                throw;
+            }
+
         }
 
         // GET: Usuarios/Create
