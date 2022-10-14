@@ -11,6 +11,8 @@ using AfincoApp.Models;
 
 namespace AfincoApp.Controllers
 {
+    [Authorize]
+
     public class ClientesController : Controller
     {
         private AfincoContext db = new AfincoContext();

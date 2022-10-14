@@ -11,8 +11,11 @@ using AfincoApp.Models;
 
 namespace AfincoApp.Controllers
 {
+    [Authorize]
+
     public class BalancosController : Controller
     {
+
         private AfincoContext db = new AfincoContext();
 
         // GET: Balancos

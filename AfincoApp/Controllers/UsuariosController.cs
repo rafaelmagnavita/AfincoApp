@@ -19,6 +19,7 @@ namespace AfincoApp.Controllers
         private AfincoContext db = new AfincoContext();
 
         // GET: Usuarios
+        [Authorize]
         public ActionResult Index()
         {
             try
@@ -33,6 +34,8 @@ namespace AfincoApp.Controllers
         }
 
         // GET: Usuarios/Details/5
+        [Authorize]
+
         public ActionResult Details(int? id)
         {
             try
@@ -54,6 +57,7 @@ namespace AfincoApp.Controllers
                 return View("~/Views/Home/Index.cshtml");
             }
         }
+
 
         public ActionResult Login()
         {
@@ -89,6 +93,7 @@ namespace AfincoApp.Controllers
             }
         }
 
+        [Authorize]
         public ActionResult LogOut()
         {
             try
@@ -107,6 +112,8 @@ namespace AfincoApp.Controllers
         }
 
         // GET: Usuarios/Create
+        [Authorize]
+
         public ActionResult Create()
         {
             try
@@ -126,6 +133,8 @@ namespace AfincoApp.Controllers
         // obter mais detalhes, veja https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
+
         public ActionResult Create([Bind(Include = "UsuarioID,Nome,Sobrenome,Login,Senha")] Usuario usuario)
         {
             try
@@ -148,6 +157,8 @@ namespace AfincoApp.Controllers
         }
 
         // GET: Usuarios/Edit/5
+        [Authorize]
+
         public ActionResult Edit(int? id)
         {
             try
@@ -176,6 +187,8 @@ namespace AfincoApp.Controllers
         // obter mais detalhes, veja https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
+
         public ActionResult Edit([Bind(Include = "UsuarioID,Nome,Sobrenome,Login,Senha")] Usuario usuario)
         {
             try
@@ -196,6 +209,8 @@ namespace AfincoApp.Controllers
         }
 
         // GET: Usuarios/Delete/5
+        [Authorize]
+
         public ActionResult Delete(int? id)
         {
             try
@@ -222,6 +237,8 @@ namespace AfincoApp.Controllers
         // POST: Usuarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
+
         public ActionResult DeleteConfirmed(int id)
         {
             try
