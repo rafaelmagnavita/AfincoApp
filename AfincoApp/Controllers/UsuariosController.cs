@@ -83,7 +83,7 @@ namespace AfincoApp.Controllers
                     Response.Cookies.Add(cookie);
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", "Login ou Senha Incorretos");
+                ViewBag.Errado = "Login ou Senha Incorretos";
                 return View();
             }
             catch (Exception ex)

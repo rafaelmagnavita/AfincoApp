@@ -1,31 +1,64 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using AfincoApp.Models;
+
+@{
+    ViewBag.Title = "Menu Principal";
+    Usuario usuario = (Usuario)Session["usuario"];
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+    @if (!String.IsNullOrEmpty(ViewBag.Erro))
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.Erro
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    }
+<div class="card-">
+    <div class="card">
+        <div class="card-img-top text-center mt-4">
+            <a class="btn btn-primary" href="@Url.Action("Details", "Clientes")">
+                <span class="text-center">
+                    <i class="fas fa-glasses fa-7x nav-op"></i>
+                </span>
+            </a>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Relatórios:</h5>
+            <p class="card-text">Clique aqui para gerar relatórios.</p>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
+    @if (usuario.Tipo == 1 || usuario.Tipo == 2)
+    {
+        <div class="card">
+            <div class="card-img-top text-center mt-4">
+                <a class="btn btn-primary" href="@Url.Action("Index","Clientes")">
+                    <span class="text-center">
+                        <i class="fas fa-cog fa-7x nav-op"></i>
+                    </span>
+                </a>
+            </div>
+            <hr />
+            <div class="card-body">
+                <h5 class="card-title">Criar/Importar Relatórios:</h5>
+                <p class="card-text">Clique aqui para configurar um novo relatório ou alterar um existente.</p>
+            </div>
+        </div>
+    }
+    @if (usuario.Tipo == 1)
+    {
+        <div class="card">
+            <div class="card-img-top text-center mt-4">
+                <a class="btn btn-primary" href="@Url.Action("Index","Usuarios")">
+                    <span class="text-center">
+                        <i class="fas fa-copy fa-7x nav-op"></i>
+                    </span>
+                </a>
+            </div>
+            <hr />
+            <div class="card-body">
+                <h5 class="card-title">Gerenciar Usuários:</h5>
+                <p class="card-text">Clique aqui para adicionar ou alterar usuários do sistema.</p>
+            </div>
+        </div>
+    }
 </div>

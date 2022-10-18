@@ -14,39 +14,44 @@
 
 }
 
-<div>
-    <div class="text-center mt-5 mb-4">
-        <div class="m-auto">
-            <div>
-                <img src="~/Img/logo-principal-afinco.png" />
-            </div>
+<div class="text-center mt-5 mb-4">
+    <div class="m-auto">
+        <div>
+            <img src="~/Img/logo-principal-afinco.png" />
         </div>
     </div>
+</div>
 
-    <hr />
+<hr />
 
-    <div class="text-center mt-5 mb-4">
-        @using (Html.BeginForm("Login", "Usuarios", FormMethod.Post, new { @class = "form-signin" }))
-        {
-            //cria a tag do formulário
-            @Html.AntiForgeryToken() // previne o ataque CSRF
-            @Html.ValidationSummary(true)
+<div class="row text-center mb-4">
+    <h1>Seja Bem Vindo!</h1>
+</div>
 
-            <div>
-                <form class="col-md-12">
-                    <p>
-                        @Html.TextBoxFor(a => a.Login, new { @class = "form-control-md text-center", @placeholder = "Nome de Usuário", @required = "required", @autofocus = "autofocus", @type = "text" })
-                        @Html.ValidationMessageFor(a => a.Login)
-                    </p>
-                    <p>
-                        @Html.PasswordFor(a => a.Senha, new { @class = "form-control-md text-center", @placeholder = "Senha", @required = "required", @autofocus = "autofocus", @type = "password" })
-                        @Html.ValidationMessageFor(a => a.Senha)
-                    </p>
-                </form>
-                <div class="m-3"><button class="btn btn-secondary" style="background-color: #181717" type="submit" value="Login" />Entrar</div>
-            </div>
-        }
-    </div>
+<div class="row text-center mt-5 mb-4">
+
+
+
+    @using (Html.BeginForm("Login", "Usuarios", FormMethod.Post, new { @class = "form-signin" }))
+    {
+        //cria a tag do formulário
+        @Html.AntiForgeryToken() // previne o ataque CSRF
+        @Html.ValidationSummary(true)
+
+        <div class="row">
+            <form class="col-md-12">
+                <p>
+                    @Html.TextBoxFor(a => a.Login, new { @class = "form-control-md text-center", @placeholder = "Nome de Usuário", @required = "required", @autofocus = "autofocus", @type = "text" })
+                    @Html.ValidationMessageFor(a => a.Login)
+                </p>
+                <p>
+                    @Html.PasswordFor(a => a.Senha, new { @class = "form-control-md text-center", @placeholder = "Senha", @required = "required", @autofocus = "autofocus", @type = "password" })
+                    @Html.ValidationMessageFor(a => a.Senha)
+                </p>
+            </form>
+            <div class="m-3"><button class="btn btn-primary" type="submit" value="Login" />Entrar</div>
+        </div>
+    }
 </div>
 
 
