@@ -5,60 +5,64 @@
     Usuario usuario = (Usuario)Session["usuario"];
 }
 
-    @if (!String.IsNullOrEmpty(ViewBag.Erro))
-    {
-        <div class="alert alert-danger" role="alert">
-            @ViewBag.Erro
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>
-
-    }
-<div class="card-">
-    <div class="card">
-        <div class="card-img-top text-center mt-4">
-            <a class="btn btn-primary" href="@Url.Action("Details", "Clientes")">
-                <span class="text-center">
-                    <i class="fas fa-glasses fa-7x nav-op"></i>
-                </span>
-            </a>
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">Relatórios:</h5>
-            <p class="card-text">Clique aqui para gerar relatórios.</p>
-        </div>
+@if (!String.IsNullOrEmpty(ViewBag.Erro))
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.Erro
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     </div>
-    @if (usuario.Tipo == 1 || usuario.Tipo == 2)
-    {
+
+}
+
+<body>
+    <div class="card-group mt-lg-5">
         <div class="card">
             <div class="card-img-top text-center mt-4">
-                <a class="btn btn-primary" href="@Url.Action("Index","Clientes")">
+                <a class="btn btn-primary" href="@Url.Action("Details", "Clientes")">
                     <span class="text-center">
-                        <i class="fas fa-cog fa-7x nav-op"></i>
+                        <i class="fa-solid fa-chart-simple fa-7x"></i>
                     </span>
                 </a>
             </div>
             <hr />
             <div class="card-body">
-                <h5 class="card-title">Criar/Importar Relatórios:</h5>
-                <p class="card-text">Clique aqui para configurar um novo relatório ou alterar um existente.</p>
+                <h5 class="card-title">Relatórios:</h5>
+                <p class="card-text">Clique aqui para gerar relatórios.</p>
             </div>
         </div>
-    }
-    @if (usuario.Tipo == 1)
-    {
-        <div class="card">
-            <div class="card-img-top text-center mt-4">
-                <a class="btn btn-primary" href="@Url.Action("Index","Usuarios")">
-                    <span class="text-center">
-                        <i class="fas fa-copy fa-7x nav-op"></i>
-                    </span>
-                </a>
+        @if (usuario.Tipo == 1 || usuario.Tipo == 2)
+        {
+            <div class="card">
+                <div class="card-img-top text-center mt-4">
+                    <a class="btn btn-primary" href="@Url.Action("Index","Clientes")">
+                        <span class="text-center">
+                            <i class="fa-solid fa-file-pen fa-7x"></i>
+                        </span>
+                    </a>
+                </div>
+                <hr />
+                <div class="card-body">
+                    <h5 class="card-title">Criar/Importar Relatórios:</h5>
+                    <p class="card-text">Clique aqui para configurar um novo relatório ou alterar um existente.</p>
+                </div>
             </div>
-            <hr />
-            <div class="card-body">
-                <h5 class="card-title">Gerenciar Usuários:</h5>
-                <p class="card-text">Clique aqui para adicionar ou alterar usuários do sistema.</p>
+        }
+        @if (usuario.Tipo == 1)
+        {
+            <div class="card">
+                <div class="card-img-top text-center mt-4">
+                    <a class="btn btn-primary" href="@Url.Action("Index","Usuarios")">
+                        <span class="text-center">
+                            <i class="fa-solid fa-users-gear fa-7x"></i>
+                        </span>
+                    </a>
+                </div>
+                <hr />
+                <div class="card-body">
+                    <h5 class="card-title">Gerenciar Usuários:</h5>
+                    <p class="card-text">Clique aqui para adicionar ou alterar usuários do sistema.</p>
+                </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
+</body>
