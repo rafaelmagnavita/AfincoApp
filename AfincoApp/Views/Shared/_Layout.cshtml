@@ -7,6 +7,10 @@
     <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+
 
     <title>@ViewBag.Title - Afinco Web App</title>
     @Styles.Render("~/Content/css")
@@ -55,7 +59,102 @@
             </footer>*@
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/jquery")
+        @RenderSection("scripts", required: false)*@
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/DataTables/buttons.bootstrap4.min.js"></script>
+    <script src="~/Scripts/pdfmake/pdfmake.min.js"></script>
+    <script src="~/Scripts/pdfmake/vfs_fonts.js"></script>
+    <script src="~/Scripts/jszip.min.js"></script>
+    <script src="~/Scripts/DataTables/buttons.html5.min.js"></script>
+    <script src="~/Scripts/DataTables/buttons.print.min.js"></script>
+    <script src="~/Scripts/DataTables/buttons.colVis.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
+    <script src="~/Scripts/DataTables/responsive.bootstrap4.min.js"></script>
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/Scripts/summernote.js"></script>
+
+    <script type="text/javascript">
+
+        jQuery(document).ready(function ($) {
+            $("body").css({
+                'padding-top': $(".navbar").outerHeight() + 'px'
+            })
+            $('#accordion').attr('class', 'row ml-auto nav-op')
+        });
+
+
+        $(function () {
+            var displayMessage = function (message, msgType) {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+                toastr[msgType](message);
+            };
+
+            if ($('#success').val()) {
+                displayMessage($('#success').val(), 'success');
+            }
+            if ($('#info').val()) {
+                displayMessage($('#info').val(), 'info');
+            }
+            if ($('#warning').val()) {
+                displayMessage($('#warning').val(), 'warning');
+            }
+            if ($('#error').val()) {
+                displayMessage($('#error').val(), 'error');
+            }
+        });
+
+        $.extend(true, $.fn.dataTable.defaults, {
+            lengthChange: false,
+            buttons: ['copy', 'print', 'excel', 'csv', 'pdf', 'colvis'],
+            language: {
+                "emptyTable": "Nenhum registro encontrado",
+                "info": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "infoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "infoFiltered": "(Filtrados de _MAX_ registros)",
+                "loadingRecords": "Carregando...",
+                "processing": "Processando...",
+                "zeroRecords": "Nenhum registro encontrado",
+                "search": "Pesquisar",
+                "paginate": {
+                    "next": "Próximo",
+                    "previous": "Anterior",
+                    "first": "Primeiro",
+                    "last": "Último"
+                },
+                "lengthMenu": "Exibir _MENU_ resultados por página",
+                "searchPlaceholder": ""
+            },
+
+            columnDefs: [
+                //    { targets: 0, border: 0 }
+            ],
+            info: false
+        });
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

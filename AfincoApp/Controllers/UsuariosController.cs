@@ -135,17 +135,19 @@ namespace AfincoApp.Controllers
         [ValidateAntiForgeryToken]
         [Authorize]
 
-        public ActionResult Create([Bind(Include = "UsuarioID,Nome,Sobrenome,Login,Senha")] Usuario usuario)
+        public ActionResult Create(Usuario usuario)
         {
             try
             {
-                if (ModelState.IsValid)
+                if (!Common.LoginExiste(usuario.Login, db))
                 {
-                    db.Usuarios.Add(usuario);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    if (ModelState.IsValid && Common.TemPermissao(1))
+                    {
+                        db.Usuarios.Add(usuario);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
                 }
-
                 return View(usuario);
             }
             catch (Exception ex)
@@ -189,16 +191,18 @@ namespace AfincoApp.Controllers
         [ValidateAntiForgeryToken]
         [Authorize]
 
-        public ActionResult Edit([Bind(Include = "UsuarioID,Nome,Sobrenome,Login,Senha")] Usuario usuario)
+        public ActionResult Edit(Usuario usuario)
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    db.Entry(usuario).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
+                string LoginAnterior = db.Usuarios.Find(usuario.UsuarioID).Login;
+                if (!Common.LoginExiste(usuario.Login, db) || usuario.Login == LoginAnterior)
+                    if (ModelState.IsValid && Common.TemPermissao(1))
+                    {
+                        db.Entry(usuario).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
                 return View(usuario);
             }
             catch (Exception ex)

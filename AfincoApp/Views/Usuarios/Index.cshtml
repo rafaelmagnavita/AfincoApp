@@ -1,40 +1,82 @@
 ﻿@model IEnumerable<AfincoApp.Models.Usuario>
 
 
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
+<a class="btn btn-outline-success mt-lg-5" href="@Url.Action("Create")">
+    <span class="text-center">
+        <i class="fas fa-user-plus fa-2x"></i>
+    </span>
+</a>
+
+<table class="table table-sm table-hover table-responsive-sm table-responsive-lg table-responsive-md" id="grid-index">
+    <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Nome)
+                Nome
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sobrenome)
+                Sobrenome
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Login)
+                Tipo de Usuário
             </th>
-            <th>Ações</th>
+            <th>
+                Login
+            </th>
+            <th>
+                Opções
+            </th>
         </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sobrenome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Login)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.UsuarioID }) |
-                @Html.ActionLink("Details", "Details", new { id=item.UsuarioID }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.UsuarioID })
-            </td>
-        </tr>
-    }
-    
-    </table>
+    </thead>
+
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sobrenome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tipo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Login)
+                </td>
+                <td>
+                    <a class="btn btn-outline-warning" href="@Url.Action("Edit", new { id = item.UsuarioID })">
+                        <span class="text-center">
+                            <i class="fas fa-user-edit fa-xs"></i>
+                        </span>
+                    </a>
+
+                    <a class="btn btn-outline-danger" href="@Url.Action("Delete", new { id = item.UsuarioID })">
+                        <span class="text-center">
+                            <i class="fas fa-user-minus fa-xs"></i>
+                        </span>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+
+</table>
+
+<div><a class="btn btn-primary mt-5" href="~/Home/Index">Voltar &raquo;</a></div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var table = $('#grid-index').DataTable();
+        });
+
+
+    </script>
+}
+
