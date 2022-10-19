@@ -8,6 +8,8 @@ using System.Web.Mvc;
 namespace AfincoApp.Controllers
 {
     [Authorize]
+    [Common.SessionExpireFilter]
+
 
     public class HomeController : Controller
     {

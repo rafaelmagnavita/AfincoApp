@@ -13,6 +13,8 @@ using AfincoApp.Utils;
 namespace AfincoApp.Controllers
 {
     [Authorize]
+    [Common.SessionExpireFilter]
+
 
     public class ClientesController : Controller
     {

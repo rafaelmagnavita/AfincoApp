@@ -12,6 +12,7 @@ using AfincoApp.Utils;
 
 namespace AfincoApp.Controllers
 {
+    [Common.SessionExpireFilter]
     [Authorize]
 
     public class BalancosController : Controller

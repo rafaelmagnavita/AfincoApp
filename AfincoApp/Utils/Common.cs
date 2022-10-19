@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using AfincoApp.DAL;
 using AfincoApp.Models;
 
@@ -10,6 +11,19 @@ namespace AfincoApp.Utils
 {
     public class Common
     {
+        public class SessionExpireFilterAttribute : ActionFilterAttribute
+        {
+            public override void OnActionExecuting(ActionExecutingContext filterContext)
+            {
+                Usuario usuario = (Usuario)HttpContext.Current.Session["usuario"];
+                if (usuario == null)
+                {
+                    filterContext.Result = new RedirectResult("~/Usuarios/Login");
+                    return;
+                }
+                base.OnActionExecuting(filterContext);
+            }
+        }
 
         /// <summary>
         /// Função para gerar relatorio de erros do programa nos logs do windows

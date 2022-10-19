@@ -20,6 +20,7 @@ namespace AfincoApp.Controllers
 
         // GET: Usuarios
         [Authorize]
+        [Common.SessionExpireFilter]
         public ActionResult Index()
         {
             try
@@ -35,6 +36,7 @@ namespace AfincoApp.Controllers
 
         // GET: Usuarios/Details/5
         [Authorize]
+        [Common.SessionExpireFilter]
 
         public ActionResult Details(int? id)
         {
@@ -69,6 +71,7 @@ namespace AfincoApp.Controllers
         // obter mais detalhes, veja https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         public ActionResult Login(Usuario usuario)
         {
             try
@@ -94,6 +97,8 @@ namespace AfincoApp.Controllers
         }
 
         [Authorize]
+        [Common.SessionExpireFilter]
+
         public ActionResult LogOut()
         {
             try
@@ -113,6 +118,7 @@ namespace AfincoApp.Controllers
 
         // GET: Usuarios/Create
         [Authorize]
+        [Common.SessionExpireFilter]
 
         public ActionResult Create()
         {
@@ -134,6 +140,7 @@ namespace AfincoApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
+        [Common.SessionExpireFilter]
 
         public ActionResult Create(Usuario usuario)
         {
@@ -161,6 +168,7 @@ namespace AfincoApp.Controllers
 
         // GET: Usuarios/Edit/5
         [Authorize]
+        [Common.SessionExpireFilter]
 
         public ActionResult Edit(int? id)
         {
@@ -193,6 +201,7 @@ namespace AfincoApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
+        [Common.SessionExpireFilter]
 
         public ActionResult Edit(Usuario usuario)
         {
@@ -223,6 +232,7 @@ namespace AfincoApp.Controllers
 
         // GET: Usuarios/Delete/5
         [Authorize]
+        [Common.SessionExpireFilter]
 
         public ActionResult Delete(int? id)
         {
@@ -251,6 +261,7 @@ namespace AfincoApp.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize]
+        [Common.SessionExpireFilter]
 
         public ActionResult DeleteConfirmed(int id)
         {
