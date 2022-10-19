@@ -1,50 +1,117 @@
 ﻿@model AfincoApp.Models.Balanco
 
-@{
-    Layout = null;
+
+
+<div>
+    <h4>Balanço</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dd>
+            @Html.DisplayFor(model => model.Cliente.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayFor(model => model.Ano) . @Html.DisplayFor(model => model.Periodo)
+        </dt>
+
+
+
+    </dl>
+</div>
+
+<hr />
+<table class="table table-sm table-hover table-responsive-sm table-responsive-lg table-responsive-md" id="grid-index">
+    <h4 class="text-center">Movimentações no Período</h4>
+    <thead>
+        <tr>
+            <th>
+                Valor (R$)
+            </th>
+            <th>
+                Tipo
+            </th>
+            <th>
+                Opções
+            </th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        @foreach (var item in Model.Movimentacoes)
+        {
+        <tr>
+            <td>
+                R$ @Html.DisplayFor(modelItem => item.Valor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo)
+            </td>
+            <td>
+                <a class="btn btn-outline-warning" href="@Url.Action("Details","Movimentacoes", new { id = item.MovimentacaoID })">
+                    <span class="text-center">
+                        <i class="fas fa-file-alt fa-xs"></i>
+                    </span>
+                </a>
+            </td>
+        </tr>
+        }
+    </tbody>
+
+
+</table>
+
+<div><a class="btn btn-primary mt-5" href="@Url.Action("Details","Clientes", new { id = Model.ClienteID })">Voltar &raquo;</a></div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var table = $('#grid-index').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: [':visible']
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: [':visible']
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        title: 'Movimentações do Balanco @Model.Ano . @Model.Periodo - @Model.Cliente.Nome',
+                        messageTop: '',
+                        exportOptions: {
+                            columns: [':visible']
+                        },
+                        customize: function (doc) {
+                            doc.defaultStyle.fontSize = 8;
+                            doc.styles.tableHeader.fontSize = 8;
+                            doc.content[1].margin = [20, 0, 20, 0];
+                            doc.content.splice(1, 0, {
+                                margin: [0, 0, 0, 12],
+                                alignment: 'center',
+                                image: 'data:image/png;base64,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',
+                                width: 70,
+                                height: 50,
+                            });
+                            doc.styles.tableHeader.alignment = "center";
+                            doc.defaultStyle.alignment = "center";
+                        }
+                    },
+                    'colvis'
+                ]
+            });
+        });
+
+
+    </script>
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
-    <div>
-        <h4>Balanco</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Cliente.Nome)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Cliente.Nome)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Ano)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Ano)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Periodo)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Periodo)
-            </dd>
-    
-        </dl>
-    </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.BalancoID }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-</body>
-</html>
