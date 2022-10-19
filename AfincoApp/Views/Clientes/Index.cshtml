@@ -1,41 +1,83 @@
 ﻿@model IEnumerable<AfincoApp.Models.Cliente>
 
+@using AfincoApp.Utils;
+@using AfincoApp.Models;
+
+
 @{
-    Layout = null;
+    ViewBag.Title = "Painel de Clientes";
+    Usuario usuario = (Usuario)Session["usuario"];
 }
 
-<!DOCTYPE html>
+<a class="btn btn-outline-success mt-lg-5" href="@Url.Action("Create")">
+    <span class="text-center">
+        <i class="fas fa-plus fa-2x"></i>
+    </span>
+</a>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
+<table class="table table-sm table-hover table-responsive-sm table-responsive-lg table-responsive-md" id="grid-index">
+    <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Nome)
+                Nome
             </th>
-            <th></th>
+
+            <th>
+                Opções
+            </th>
         </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.ClienteID }) |
-                @Html.ActionLink("Details", "Details", new { id=item.ClienteID }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.ClienteID })
-            </td>
-        </tr>
-    }
-    
-    </table>
-</body>
-</html>
+    </thead>
+
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+
+                <td>
+                    <a class="btn btn-outline-warning" href="@Url.Action("Details", new { id = item.ClienteID })">
+                        <span class="text-center">
+                            <i class="fas fa-file-alt fa-xs"></i>
+                        </span>
+                    </a>
+                    @if (usuario.Tipo == Enums.TiposUsuario.Master || usuario.Tipo == Enums.TiposUsuario.Intermediario)
+                    {
+                        <a class="btn btn-outline-success" href="@Url.Action("Edit", new { id = item.ClienteID })">
+                            <span class="text-center">
+                                <i class="fas fa-user-edit fa-xs"></i>
+                            </span>
+                        </a>
+                    }
+                    @if ((usuario.Tipo == Enums.TiposUsuario.Master || usuario.Tipo == Enums.TiposUsuario.Intermediario) && item.Balancos.Count() == 0)
+                    {
+                        <a class="btn btn-outline-danger" href="@Url.Action("Delete", new { id = item.ClienteID })">
+                            <span class="text-center">
+                                <i class="fas fa-user-minus fa-xs"></i>
+                            </span>
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+
+
+</table>
+
+<div><a class="btn btn-primary mt-5" href="~/Home/Index">Voltar &raquo;</a></div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var table = $('#grid-index').DataTable();
+        });
+
+
+    </script>
+}
