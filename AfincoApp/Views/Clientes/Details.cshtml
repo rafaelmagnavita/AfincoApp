@@ -1,4 +1,7 @@
 ﻿@model AfincoApp.Models.Cliente
+@using AfincoApp.Models;
+@using AfincoApp.Utils;
+
 
 
 
@@ -25,7 +28,15 @@
             <th>
                 Periodo
             </th>
-
+            <th>
+                Lucro
+            </th>
+            <th>
+                Despesa
+            </th>
+            <th>
+                Saldo
+            </th>
             <th>
                 Opções
             </th>
@@ -36,19 +47,30 @@
     <tbody>
         @foreach (var item in Model.Balancos)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Ano) . @Html.DisplayFor(modelItem => item.Periodo)
-                </td>
-
-                <td>
-                    <a class="btn btn-outline-warning" href="@Url.Action("Details","Balancos", new { id = item.BalancoID })">
-                        <span class="text-center">
-                            <i class="fas fa-file-alt fa-xs"></i>
-                        </span>
-                    </a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ano) . @Html.DisplayFor(modelItem => item.Periodo)
+            </td>
+            <td>
+                @{ decimal lucro = Common.ObterLucro(item); }
+                R$ @lucro
+            </td>
+            <td>
+                @{ decimal despesa = Common.ObterDespesa(item); }
+                R$ @despesa
+            </td>
+            <td>
+                @{ decimal saldo = lucro - despesa; }
+                R$ @saldo
+            </td>
+            <td>
+                <a class="btn btn-outline-warning" href="@Url.Action("Details","Balancos", new { id = item.BalancoID })">
+                    <span class="text-center">
+                        <i class="fas fa-file-alt fa-xs"></i>
+                    </span>
+                </a>
+            </td>
+        </tr>
         }
     </tbody>
 

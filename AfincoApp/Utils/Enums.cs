@@ -7,6 +7,11 @@ namespace AfincoApp.Utils
 {
     public class Enums
     {
+        public enum TiposMovimentacao
+        {
+            Lucro,
+            Despesa
+        }
         public enum TiposUsuario
         {
             Master,

@@ -61,6 +61,8 @@ namespace AfincoApp.Utils
         }
 
         #endregion
+
+        #region metodos
         /// <summary>
         /// Função para gerar relatorio de erros do programa nos logs do windows
         /// </summary>
@@ -127,5 +129,30 @@ namespace AfincoApp.Utils
             }
 
         }
+
+        public static decimal ObterLucro(Balanco balanco)
+        {
+            decimal lucro = 0;
+            foreach (Movimentacao movimentacao in balanco.Movimentacoes)
+            {
+                if (movimentacao.Tipo == Enums.TiposMovimentacao.Lucro)
+                    lucro = lucro + movimentacao.Valor;
+            }
+            return lucro;
+        }
+
+        public static decimal ObterDespesa(Balanco balanco)
+        {
+            decimal despesa = 0;
+            foreach (Movimentacao movimentacao in balanco.Movimentacoes)
+            {
+                if (movimentacao.Tipo == Enums.TiposMovimentacao.Despesa)
+                    despesa = despesa + movimentacao.Valor;
+            }
+            return despesa;
+        }
+        #endregion
+
+
     }
 }

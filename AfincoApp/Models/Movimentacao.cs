@@ -11,7 +11,7 @@ namespace AfincoApp.Models
     {
         [Key]
         public int MovimentacaoID { get; set; }
-        public int Tipo { get; set; }
+        public Utils.Enums.TiposMovimentacao Tipo { get; set; }
         public decimal Valor { get; set; }
         public int BalancoID { get; set; }
         [ForeignKey("BalancoID")]
