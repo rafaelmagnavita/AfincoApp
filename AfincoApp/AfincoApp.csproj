@@ -149,6 +149,10 @@
     <Compile Include="Migrations\202210142016523_confirmasenha.Designer.cs">
       <DependentUpon>202210142016523_confirmasenha.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202210191534191_tiposusuarioenum.cs" />
+    <Compile Include="Migrations\202210191534191_tiposusuarioenum.Designer.cs">
+      <DependentUpon>202210191534191_tiposusuarioenum.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Balanco.cs" />
     <Compile Include="Models\Cliente.cs" />
@@ -631,6 +635,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202210142016523_confirmasenha.resx">
       <DependentUpon>202210142016523_confirmasenha.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210191534191_tiposusuarioenum.resx">
+      <DependentUpon>202210191534191_tiposusuarioenum.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

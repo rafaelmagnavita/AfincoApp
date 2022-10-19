@@ -141,7 +141,7 @@ namespace AfincoApp.Controllers
             {
                 if (!Common.LoginExiste(usuario.Login, db))
                 {
-                    if (ModelState.IsValid && Common.TemPermissao(1))
+                    if (ModelState.IsValid && Common.TemPermissao(Enums.TiposUsuario.Master))
                     {
                         db.Usuarios.Add(usuario);
                         db.SaveChanges();
@@ -175,7 +175,7 @@ namespace AfincoApp.Controllers
                 {
                     return HttpNotFound();
                 }
-                if (Common.TemPermissao(1))
+                if (Common.TemPermissao(Enums.TiposUsuario.Master))
                     ViewBag.Permitido = true;
                 return View(usuario);
             }
@@ -200,7 +200,7 @@ namespace AfincoApp.Controllers
             {
                 string LoginAnterior = db.Usuarios.Find(usuario.UsuarioID).Login;
                 if (!Common.LoginExiste(usuario.Login, db) || usuario.Login == LoginAnterior)
-                    if (ModelState.IsValid && Common.TemPermissao(1))
+                    if (ModelState.IsValid && Common.TemPermissao(Enums.TiposUsuario.Master))
                     {
                         var local = db.Set<Usuario>().Local.FirstOrDefault(f => f.UsuarioID == usuario.UsuarioID);
                         if (local != null)
@@ -256,7 +256,7 @@ namespace AfincoApp.Controllers
         {
             try
             {
-                if (Common.TemPermissao(1))
+                if (Common.TemPermissao(Enums.TiposUsuario.Master))
                 {
                     Usuario usuario = db.Usuarios.Find(id);
                     db.Usuarios.Remove(usuario);

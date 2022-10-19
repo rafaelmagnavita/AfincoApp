@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using AfincoApp.Utils;
 
 namespace AfincoApp.Models
 {
@@ -24,7 +25,7 @@ namespace AfincoApp.Models
         [DataType(DataType.Password)]
         [Compare("Senha", ErrorMessage = "A Senha deve ser igual à Confirmação de Senha!")]
         public string ConfirmaSenha { get; set; }
-        public int Tipo { get; set; }
+        public Enums.TiposUsuario Tipo { get; set; }
 
     }
 }

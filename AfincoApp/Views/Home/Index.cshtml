@@ -1,4 +1,5 @@
 ﻿@using AfincoApp.Models;
+@using AfincoApp.Utils
 
 @{
     ViewBag.Title = "Menu Principal";
@@ -21,7 +22,7 @@
                 <p class="card-text">Clique aqui para gerar relatórios.</p>
             </div>
         </div>
-        @if (usuario.Tipo == 1 || usuario.Tipo == 2)
+        @if (usuario.Tipo == Enums.TiposUsuario.Master || usuario.Tipo == Enums.TiposUsuario.Intermediario)
         {
             <div class="card">
                 <div class="card-img-top text-center mt-4">
@@ -38,7 +39,7 @@
                 </div>
             </div>
         }
-        @if (usuario.Tipo == 1)
+        @if (usuario.Tipo == Enums.TiposUsuario.Master)
         {
             <div class="card">
                 <div class="card-img-top text-center mt-4">

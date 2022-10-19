@@ -50,20 +50,20 @@ namespace AfincoApp.Utils
 
         }
 
-        public static bool TemPermissao(int NivelAutorizacao)
+        public static bool TemPermissao(Enums.TiposUsuario NivelAutorizacao)
         {
             try
             {
                 Usuario usuario = (Usuario)HttpContext.Current.Session["usuario"];
                 switch (NivelAutorizacao)
                 {
-                    case 1:
-                        if (usuario.Tipo == 1)
+                    case Enums.TiposUsuario.Master:
+                        if (usuario.Tipo == Enums.TiposUsuario.Master)
                             return true;
                         else
                             return false;
-                    case 2:
-                        if (usuario.Tipo == 1 || usuario.Tipo == 2)
+                    case Enums.TiposUsuario.Intermediario:
+                        if (usuario.Tipo == Enums.TiposUsuario.Master || usuario.Tipo == Enums.TiposUsuario.Intermediario)
                             return true;
                         else
                             return false;
