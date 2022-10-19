@@ -41,9 +41,9 @@ namespace AfincoApp.Controllers
         }
 
         // GET: Balancos/Create
-        public ActionResult Create()
+        public ActionResult Create(int ClienteID)
         {
-            ViewBag.ClienteID = new SelectList(db.Clientes, "ClienteID", "Nome");
+            ViewBag.ClienteID = ClienteID;
             return View();
         }
 
@@ -52,13 +52,13 @@ namespace AfincoApp.Controllers
         // obter mais detalhes, veja https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BalancoID,Ano,Periodo,ClienteID")] Balanco balanco)
+        public ActionResult Create(Balanco balanco)
         {
             if (ModelState.IsValid)
             {
                 db.Balancos.Add(balanco);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", "Clientes", new { id = balanco.ClienteID });
             }
 
             ViewBag.ClienteID = new SelectList(db.Clientes, "ClienteID", "Nome", balanco.ClienteID);
