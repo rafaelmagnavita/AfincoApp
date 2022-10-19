@@ -148,6 +148,7 @@ namespace AfincoApp.Controllers
                         return RedirectToAction("Index");
                     }
                 }
+                ViewBag.Errado = "Login já Existente";
                 return View(usuario);
             }
             catch (Exception ex)
@@ -174,6 +175,8 @@ namespace AfincoApp.Controllers
                 {
                     return HttpNotFound();
                 }
+                if (Common.TemPermissao(1))
+                    ViewBag.Permitido = true;
                 return View(usuario);
             }
             catch (Exception ex)
@@ -199,10 +202,16 @@ namespace AfincoApp.Controllers
                 if (!Common.LoginExiste(usuario.Login, db) || usuario.Login == LoginAnterior)
                     if (ModelState.IsValid && Common.TemPermissao(1))
                     {
+                        var local = db.Set<Usuario>().Local.FirstOrDefault(f => f.UsuarioID == usuario.UsuarioID);
+                        if (local != null)
+                        {
+                            db.Entry(local).State = EntityState.Detached;
+                        }
                         db.Entry(usuario).State = EntityState.Modified;
                         db.SaveChanges();
                         return RedirectToAction("Index");
                     }
+                ViewBag.Errado = "Login já existe nesse sistema";
                 return View(usuario);
             }
             catch (Exception ex)
@@ -247,9 +256,12 @@ namespace AfincoApp.Controllers
         {
             try
             {
-                Usuario usuario = db.Usuarios.Find(id);
-                db.Usuarios.Remove(usuario);
-                db.SaveChanges();
+                if (Common.TemPermissao(1))
+                {
+                    Usuario usuario = db.Usuarios.Find(id);
+                    db.Usuarios.Remove(usuario);
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

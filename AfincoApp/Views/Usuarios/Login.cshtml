@@ -5,14 +5,7 @@
 }
 
 
-@if (!String.IsNullOrEmpty(ViewBag.Errado))
-{
-    <div class="alert alert-danger" role="alert">
-        @ViewBag.Errado
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    </div>
 
-}
 
 <div class="text-center mt-5 mb-4">
     <div class="m-auto">
@@ -28,6 +21,8 @@
     <h1>Seja Bem Vindo!</h1>
 </div>
 
+
+
 <div class="row text-center mt-5 mb-4">
 
 
@@ -38,19 +33,26 @@
         @Html.AntiForgeryToken() // previne o ataque CSRF
         @Html.ValidationSummary(true)
 
-        <div class="row">
-            <form class="col-md-12">
-                <p>
-                    @Html.TextBoxFor(a => a.Login, new { @class = "form-control-md text-center", @placeholder = "Nome de Usuário", @required = "required", @autofocus = "autofocus", @type = "text" })
-                    @Html.ValidationMessageFor(a => a.Login)
-                </p>
-                <p>
-                    @Html.PasswordFor(a => a.Senha, new { @class = "form-control-md text-center", @placeholder = "Senha", @required = "required", @autofocus = "autofocus", @type = "password" })
-                    @Html.ValidationMessageFor(a => a.Senha)
-                </p>
-            </form>
-            <div class="m-3"><button class="btn btn-primary" type="submit" value="Login" />Entrar</div>
-        </div>
+    <div class="row">
+        <form class="col-md-12">
+            <p>
+                @Html.TextBoxFor(a => a.Login, new { @class = "form-control-md text-center", @placeholder = "Nome de Usuário", @required = "required", @autofocus = "autofocus", @type = "text" })
+                @Html.ValidationMessageFor(a => a.Login)
+            </p>
+            <p>
+                @Html.PasswordFor(a => a.Senha, new { @class = "form-control-md text-center", @placeholder = "Senha", @required = "required", @autofocus = "autofocus", @type = "password" })
+                @Html.ValidationMessageFor(a => a.Senha)
+            </p>
+        </form>
+        @if (!String.IsNullOrEmpty(ViewBag.Errado))
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @ViewBag.Errado
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        <div><button class="btn btn-primary" type="submit" value="Login" />Entrar</div>
+    </div>
     }
 </div>
 

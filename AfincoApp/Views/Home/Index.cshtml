@@ -5,15 +5,6 @@
     Usuario usuario = (Usuario)Session["usuario"];
 }
 
-@if (!String.IsNullOrEmpty(ViewBag.Erro))
-{
-    <div class="alert alert-danger" role="alert">
-        @ViewBag.Erro
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    </div>
-
-}
-
 <body>
     <div class="card-group mt-lg-5">
         <div class="card">
