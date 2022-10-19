@@ -21,6 +21,8 @@ namespace AfincoApp.Controllers
         // GET: Usuarios
         [Authorize]
         [Common.SessionExpireFilter]
+        [Common.PermissaoMaster]
+
         public ActionResult Index()
         {
             try
@@ -37,6 +39,8 @@ namespace AfincoApp.Controllers
         // GET: Usuarios/Details/5
         [Authorize]
         [Common.SessionExpireFilter]
+        [Common.PermissaoMaster]
+
 
         public ActionResult Details(int? id)
         {
@@ -119,6 +123,8 @@ namespace AfincoApp.Controllers
         // GET: Usuarios/Create
         [Authorize]
         [Common.SessionExpireFilter]
+        [Common.PermissaoMaster]
+
 
         public ActionResult Create()
         {
@@ -141,6 +147,8 @@ namespace AfincoApp.Controllers
         [ValidateAntiForgeryToken]
         [Authorize]
         [Common.SessionExpireFilter]
+        [Common.PermissaoMaster]
+
 
         public ActionResult Create(Usuario usuario)
         {
@@ -169,6 +177,8 @@ namespace AfincoApp.Controllers
         // GET: Usuarios/Edit/5
         [Authorize]
         [Common.SessionExpireFilter]
+        [Common.PermissaoMaster]
+
 
         public ActionResult Edit(int? id)
         {
@@ -200,6 +210,7 @@ namespace AfincoApp.Controllers
         // obter mais detalhes, veja https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Common.PermissaoMaster]
         [Authorize]
         [Common.SessionExpireFilter]
 
@@ -232,6 +243,7 @@ namespace AfincoApp.Controllers
 
         // GET: Usuarios/Delete/5
         [Authorize]
+        [Common.PermissaoMaster]
         [Common.SessionExpireFilter]
 
         public ActionResult Delete(int? id)
@@ -262,6 +274,8 @@ namespace AfincoApp.Controllers
         [ValidateAntiForgeryToken]
         [Authorize]
         [Common.SessionExpireFilter]
+        [Common.PermissaoMaster]
+
 
         public ActionResult DeleteConfirmed(int id)
         {

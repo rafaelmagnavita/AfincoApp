@@ -11,6 +11,7 @@ namespace AfincoApp.Utils
 {
     public class Common
     {
+        #region filtros
         public class SessionExpireFilterAttribute : ActionFilterAttribute
         {
             public override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -25,6 +26,41 @@ namespace AfincoApp.Utils
             }
         }
 
+        public class PermissaoIntermediaria : ActionFilterAttribute
+        {
+            public override void OnActionExecuting(ActionExecutingContext filterContext)
+            {
+                Usuario usuario = (Usuario)HttpContext.Current.Session["usuario"];
+                if (usuario != null)
+                {
+                    if (usuario.Tipo == Enums.TiposUsuario.Consulta)
+                    {
+                        filterContext.Result = new RedirectResult("~/Home/Index");
+                        return;
+                    }
+                }
+                base.OnActionExecuting(filterContext);
+            }
+        }
+
+        public class PermissaoMaster : ActionFilterAttribute
+        {
+            public override void OnActionExecuting(ActionExecutingContext filterContext)
+            {
+                Usuario usuario = (Usuario)HttpContext.Current.Session["usuario"];
+                if (usuario != null)
+                {
+                    if (usuario.Tipo != Enums.TiposUsuario.Master)
+                    {
+                        filterContext.Result = new RedirectResult("~/Home/Index");
+                        return;
+                    }
+                }
+                base.OnActionExecuting(filterContext);
+            }
+        }
+
+        #endregion
         /// <summary>
         /// Função para gerar relatorio de erros do programa nos logs do windows
         /// </summary>

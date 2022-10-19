@@ -37,6 +37,7 @@ namespace AfincoApp.Controllers
         }
 
         // GET: Movimentacoes/Details/5
+
         public ActionResult Details(int? id)
         {
             try
@@ -61,6 +62,8 @@ namespace AfincoApp.Controllers
         }
 
         // GET: Movimentacoes/Create
+        [Common.PermissaoIntermediaria]
+
         public ActionResult Create(int BalancoID)
         {
             try
@@ -81,6 +84,8 @@ namespace AfincoApp.Controllers
         // obter mais detalhes, veja https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Common.PermissaoIntermediaria]
+
         public ActionResult Create([Bind(Include = "MovimentacaoID,Tipo,Valor,BalancoID")] Movimentacao movimentacao)
         {
             try
@@ -104,6 +109,8 @@ namespace AfincoApp.Controllers
         }
 
         // GET: Movimentacoes/Edit/5
+        [Common.PermissaoIntermediaria]
+
         public ActionResult Edit(int? id)
         {
             try
@@ -134,6 +141,8 @@ namespace AfincoApp.Controllers
         // obter mais detalhes, veja https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Common.PermissaoIntermediaria]
+
         public ActionResult Edit([Bind(Include = "MovimentacaoID,Tipo,Valor,BalancoID")] Movimentacao movimentacao)
         {
             try
@@ -156,6 +165,8 @@ namespace AfincoApp.Controllers
         }
 
         // GET: Movimentacoes/Delete/5
+        [Common.PermissaoIntermediaria]
+
         public ActionResult Delete(int? id)
         {
             try
@@ -181,6 +192,7 @@ namespace AfincoApp.Controllers
 
         // POST: Movimentacoes/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Common.PermissaoIntermediaria]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {

@@ -58,6 +58,7 @@ namespace AfincoApp.Controllers
 
         }
 
+        [Common.PermissaoIntermediaria]
         // GET: Clientes/Create
         public ActionResult Create()
         {
@@ -77,6 +78,8 @@ namespace AfincoApp.Controllers
         // obter mais detalhes, veja https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Common.PermissaoIntermediaria]
+
         public ActionResult Create(Cliente cliente)
         {
             try
@@ -99,6 +102,8 @@ namespace AfincoApp.Controllers
         }
 
         // GET: Clientes/Edit/5
+        [Common.PermissaoIntermediaria]
+
         public ActionResult Edit(int? id)
         {
             try
@@ -126,6 +131,7 @@ namespace AfincoApp.Controllers
         // Para se proteger de mais ataques, habilite as propriedades específicas às quais você quer se associar. Para 
         // obter mais detalhes, veja https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Common.PermissaoIntermediaria]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Cliente cliente)
         {
@@ -148,6 +154,8 @@ namespace AfincoApp.Controllers
         }
 
         // GET: Clientes/Delete/5
+        [Common.PermissaoIntermediaria]
+
         public ActionResult Delete(int? id)
         {
             try
@@ -174,6 +182,8 @@ namespace AfincoApp.Controllers
         // POST: Clientes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Common.PermissaoIntermediaria]
+
         public ActionResult DeleteConfirmed(int id)
         {
             try

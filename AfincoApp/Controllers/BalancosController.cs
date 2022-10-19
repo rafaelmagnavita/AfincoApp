@@ -61,6 +61,8 @@ namespace AfincoApp.Controllers
         }
 
         // GET: Balancos/Create
+        [Common.PermissaoIntermediaria]
+
         public ActionResult Create(int ClienteID)
         {
 
@@ -82,6 +84,8 @@ namespace AfincoApp.Controllers
         // obter mais detalhes, veja https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Common.PermissaoIntermediaria]
+
         public ActionResult Create(Balanco balanco)
         {
             try
@@ -105,6 +109,8 @@ namespace AfincoApp.Controllers
         }
 
         // GET: Balancos/Edit/5
+        [Common.PermissaoIntermediaria]
+
         public ActionResult Edit(int? id)
         {
 
@@ -136,6 +142,8 @@ namespace AfincoApp.Controllers
         // obter mais detalhes, veja https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Common.PermissaoIntermediaria]
+
         public ActionResult Edit([Bind(Include = "BalancoID,Ano,Periodo,ClienteID")] Balanco balanco)
         {
             try
@@ -158,6 +166,8 @@ namespace AfincoApp.Controllers
         }
 
         // GET: Balancos/Delete/5
+        [Common.PermissaoIntermediaria]
+
         public ActionResult Delete(int? id)
         {
             try
@@ -184,6 +194,8 @@ namespace AfincoApp.Controllers
         // POST: Balancos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Common.PermissaoIntermediaria]
+
         public ActionResult DeleteConfirmed(int id)
         {
             try
