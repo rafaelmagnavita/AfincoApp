@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using AfincoApp.DAL;
 using AfincoApp.Models;
+using AfincoApp.Utils;
 
 namespace AfincoApp.Controllers
 {
@@ -20,30 +21,57 @@ namespace AfincoApp.Controllers
         // GET: Movimentacoes
         public ActionResult Index()
         {
-            var movimentacoes = db.Movimentacoes.Include(m => m.Balanco);
-            return View(movimentacoes.ToList());
+            try
+            {
+                var movimentacoes = db.Movimentacoes.Include(m => m.Balanco);
+                return View(movimentacoes.ToList());
+            }
+            catch (Exception ex)
+            {
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
+            }
+
         }
 
         // GET: Movimentacoes/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Movimentacao movimentacao = db.Movimentacoes.Find(id);
+                if (movimentacao == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(movimentacao);
             }
-            Movimentacao movimentacao = db.Movimentacoes.Find(id);
-            if (movimentacao == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
             }
-            return View(movimentacao);
+
         }
 
         // GET: Movimentacoes/Create
-        public ActionResult Create()
+        public ActionResult Create(int BalancoID)
         {
-            ViewBag.BalancoID = new SelectList(db.Balancos, "BalancoID", "BalancoID");
-            return View();
+            try
+            {
+                ViewBag.BalancoID = BalancoID;
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
+            }
+
         }
 
         // POST: Movimentacoes/Create
@@ -53,31 +81,50 @@ namespace AfincoApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "MovimentacaoID,Tipo,Valor,BalancoID")] Movimentacao movimentacao)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Movimentacoes.Add(movimentacao);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Movimentacoes.Add(movimentacao);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                ViewBag.BalancoID = new SelectList(db.Balancos, "BalancoID", "BalancoID", movimentacao.BalancoID);
+                return View(movimentacao);
+            }
+            catch (Exception ex)
+            {
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
             }
 
-            ViewBag.BalancoID = new SelectList(db.Balancos, "BalancoID", "BalancoID", movimentacao.BalancoID);
-            return View(movimentacao);
         }
 
         // GET: Movimentacoes/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Movimentacao movimentacao = db.Movimentacoes.Find(id);
+                if (movimentacao == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.BalancoID = new SelectList(db.Balancos, "BalancoID", "BalancoID", movimentacao.BalancoID);
+                return View(movimentacao);
             }
-            Movimentacao movimentacao = db.Movimentacoes.Find(id);
-            if (movimentacao == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
             }
-            ViewBag.BalancoID = new SelectList(db.Balancos, "BalancoID", "BalancoID", movimentacao.BalancoID);
-            return View(movimentacao);
+
+
         }
 
         // POST: Movimentacoes/Edit/5
@@ -87,29 +134,47 @@ namespace AfincoApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MovimentacaoID,Tipo,Valor,BalancoID")] Movimentacao movimentacao)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(movimentacao).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(movimentacao).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.BalancoID = new SelectList(db.Balancos, "BalancoID", "BalancoID", movimentacao.BalancoID);
+                return View(movimentacao);
             }
-            ViewBag.BalancoID = new SelectList(db.Balancos, "BalancoID", "BalancoID", movimentacao.BalancoID);
-            return View(movimentacao);
+            catch (Exception ex)
+            {
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
+            }
+
         }
 
         // GET: Movimentacoes/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Movimentacao movimentacao = db.Movimentacoes.Find(id);
+                if (movimentacao == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(movimentacao);
             }
-            Movimentacao movimentacao = db.Movimentacoes.Find(id);
-            if (movimentacao == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
             }
-            return View(movimentacao);
+
         }
 
         // POST: Movimentacoes/Delete/5
@@ -117,10 +182,19 @@ namespace AfincoApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Movimentacao movimentacao = db.Movimentacoes.Find(id);
-            db.Movimentacoes.Remove(movimentacao);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                Movimentacao movimentacao = db.Movimentacoes.Find(id);
+                db.Movimentacoes.Remove(movimentacao);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
+            }
+
         }
 
         protected override void Dispose(bool disposing)

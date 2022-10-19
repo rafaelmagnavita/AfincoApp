@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using AfincoApp.DAL;
 using AfincoApp.Models;
+using AfincoApp.Utils;
 
 namespace AfincoApp.Controllers
 {
@@ -21,30 +22,58 @@ namespace AfincoApp.Controllers
         // GET: Balancos
         public ActionResult Index()
         {
-            var balancos = db.Balancos.Include(b => b.Cliente);
-            return View(balancos.ToList());
+            try
+            {
+                var balancos = db.Balancos.Include(b => b.Cliente);
+                return View(balancos.ToList());
+            }
+            catch (Exception ex)
+            {
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
+            }
+
         }
 
         // GET: Balancos/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Balanco balanco = db.Balancos.Find(id);
+                if (balanco == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(balanco);
             }
-            Balanco balanco = db.Balancos.Find(id);
-            if (balanco == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
             }
-            return View(balanco);
         }
 
         // GET: Balancos/Create
         public ActionResult Create(int ClienteID)
         {
-            ViewBag.ClienteID = ClienteID;
-            return View();
+
+            try
+            {
+                ViewBag.ClienteID = ClienteID;
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
+            }
+
         }
 
         // POST: Balancos/Create
@@ -54,31 +83,51 @@ namespace AfincoApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Balanco balanco)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Balancos.Add(balanco);
-                db.SaveChanges();
-                return RedirectToAction("Edit", "Clientes", new { id = balanco.ClienteID });
+                if (ModelState.IsValid)
+                {
+                    db.Balancos.Add(balanco);
+                    db.SaveChanges();
+                    return RedirectToAction("Edit", "Clientes", new { id = balanco.ClienteID });
+                }
+
+                ViewBag.ClienteID = new SelectList(db.Clientes, "ClienteID", "Nome", balanco.ClienteID);
+                return View(balanco);
+            }
+            catch (Exception ex)
+            {
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
             }
 
-            ViewBag.ClienteID = new SelectList(db.Clientes, "ClienteID", "Nome", balanco.ClienteID);
-            return View(balanco);
         }
 
         // GET: Balancos/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Balanco balanco = db.Balancos.Find(id);
+                if (balanco == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.ClienteID = new SelectList(db.Clientes, "ClienteID", "Nome", balanco.ClienteID);
+                return View(balanco);
             }
-            Balanco balanco = db.Balancos.Find(id);
-            if (balanco == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
             }
-            ViewBag.ClienteID = new SelectList(db.Clientes, "ClienteID", "Nome", balanco.ClienteID);
-            return View(balanco);
+
+
         }
 
         // POST: Balancos/Edit/5
@@ -88,29 +137,47 @@ namespace AfincoApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "BalancoID,Ano,Periodo,ClienteID")] Balanco balanco)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(balanco).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(balanco).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.ClienteID = new SelectList(db.Clientes, "ClienteID", "Nome", balanco.ClienteID);
+                return View(balanco);
             }
-            ViewBag.ClienteID = new SelectList(db.Clientes, "ClienteID", "Nome", balanco.ClienteID);
-            return View(balanco);
+            catch (Exception ex)
+            {
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
+            }
+
         }
 
         // GET: Balancos/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Balanco balanco = db.Balancos.Find(id);
+                if (balanco == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(balanco);
             }
-            Balanco balanco = db.Balancos.Find(id);
-            if (balanco == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
             }
-            return View(balanco);
+
         }
 
         // POST: Balancos/Delete/5
@@ -118,10 +185,19 @@ namespace AfincoApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Balanco balanco = db.Balancos.Find(id);
-            db.Balancos.Remove(balanco);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                Balanco balanco = db.Balancos.Find(id);
+                db.Balancos.Remove(balanco);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
+            }
+
         }
 
         protected override void Dispose(bool disposing)

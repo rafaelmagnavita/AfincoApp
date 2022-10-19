@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using AfincoApp.DAL;
 using AfincoApp.Models;
+using AfincoApp.Utils;
 
 namespace AfincoApp.Controllers
 {
@@ -20,28 +21,53 @@ namespace AfincoApp.Controllers
         // GET: Clientes
         public ActionResult Index()
         {
-            return View(db.Clientes.ToList());
+            try
+            {
+                return View(db.Clientes.ToList());
+            }
+            catch (Exception ex)
+            {
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
+            }
         }
 
         // GET: Clientes/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Cliente cliente = db.Clientes.Find(id);
+                if (cliente == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(cliente);
             }
-            Cliente cliente = db.Clientes.Find(id);
-            if (cliente == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
             }
-            return View(cliente);
+
         }
 
         // GET: Clientes/Create
         public ActionResult Create()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
+            }
         }
 
         // POST: Clientes/Create
@@ -49,31 +75,49 @@ namespace AfincoApp.Controllers
         // obter mais detalhes, veja https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ClienteID,Nome")] Cliente cliente)
+        public ActionResult Create(Cliente cliente)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Clientes.Add(cliente);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid && Common.TemPermissao(Enums.TiposUsuario.Intermediario))
+                {
+                    db.Clientes.Add(cliente);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                return View(cliente);
+            }
+            catch (Exception ex)
+            {
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
             }
 
-            return View(cliente);
         }
 
         // GET: Clientes/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Cliente cliente = db.Clientes.Find(id);
+                if (cliente == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(cliente);
             }
-            Cliente cliente = db.Clientes.Find(id);
-            if (cliente == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
             }
-            return View(cliente);
+
         }
 
         // POST: Clientes/Edit/5
@@ -81,30 +125,48 @@ namespace AfincoApp.Controllers
         // obter mais detalhes, veja https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ClienteID,Nome")] Cliente cliente)
+        public ActionResult Edit(Cliente cliente)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(cliente).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid && Common.TemPermissao(Enums.TiposUsuario.Intermediario))
+                {
+                    db.Entry(cliente).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(cliente);
             }
-            return View(cliente);
+            catch (Exception ex)
+            {
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
+            }
+
         }
 
         // GET: Clientes/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Cliente cliente = db.Clientes.Find(id);
+                if (cliente == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(cliente);
             }
-            Cliente cliente = db.Clientes.Find(id);
-            if (cliente == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
             }
-            return View(cliente);
+
         }
 
         // POST: Clientes/Delete/5
@@ -112,10 +174,24 @@ namespace AfincoApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Cliente cliente = db.Clientes.Find(id);
-            db.Clientes.Remove(cliente);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                if (Common.TemPermissao(Enums.TiposUsuario.Intermediario))
+                {
+                    Cliente cliente = db.Clientes.Find(id);
+                    db.Clientes.Remove(cliente);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
+            }
+
+
         }
 
         protected override void Dispose(bool disposing)
