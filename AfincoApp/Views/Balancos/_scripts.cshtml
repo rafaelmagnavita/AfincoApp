@@ -1,0 +1,17 @@
+﻿@Scripts.Render("~/Scripts/bootbox.js")
+
+<script>
+    $(document).ready(function () {
+        $("#Ano").change(function () {
+            let atual = @DateTime.Now.Year;
+            if (this.value > atual) { this.value = atual; }
+            else if (this.value < 1990) { this.value = '1990'; }
+        });
+
+        $("#Periodo").change(function () {
+            if (this.value > 12) { this.value = 12; }
+            else if (this.value < 1) { this.value = '1'; }
+        });
+
+    });
+</script>

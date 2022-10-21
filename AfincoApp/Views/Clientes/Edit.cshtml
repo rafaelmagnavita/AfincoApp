@@ -78,14 +78,14 @@
                 </td>
 
                 <td>
-                    <a class="btn btn-outline-warning" href="@Url.Action("Details", new { id = item.ClienteID })">
+                    <a class="btn btn-outline-warning" href="@Url.Action("Details","Balancos", new { id = item.BalancoID })">
                         <span class="text-center">
                             <i class="fas fa-file-alt fa-xs"></i>
                         </span>
                     </a>
                     @if (usuario.Tipo == Enums.TiposUsuario.Master || usuario.Tipo == Enums.TiposUsuario.Intermediario)
                     {
-                        <a class="btn btn-outline-success" href="@Url.Action("Edit", new { id = item.ClienteID })">
+                        <a class="btn btn-outline-success" href="@Url.Action("Edit","Balancos", new { id = item.BalancoID })">
                             <span class="text-center">
                                 <i class="fas fa-user-edit fa-xs"></i>
                             </span>
@@ -93,7 +93,7 @@
                     }
                     @if ((usuario.Tipo == Enums.TiposUsuario.Master || usuario.Tipo == Enums.TiposUsuario.Intermediario) && item.Movimentacoes.Count() == 0)
                     {
-                        <a class="btn btn-outline-danger" href="@Url.Action("Delete", new { id = item.ClienteID })">
+                        <a class="btn btn-outline-danger" href="@Url.Action("Delete","Balancos", new { id = item.BalancoID })">
                             <span class="text-center">
                                 <i class="fas fa-user-minus fa-xs"></i>
                             </span>
