@@ -47,6 +47,7 @@ namespace AfincoApp.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
                 Movimentacao movimentacao = db.Movimentacoes.Find(id);
+                ViewBag.BalancoID = movimentacao.BalancoID;
                 if (movimentacao == null)
                 {
                     return HttpNotFound();
@@ -86,7 +87,7 @@ namespace AfincoApp.Controllers
         [ValidateAntiForgeryToken]
         [Common.PermissaoIntermediaria]
 
-        public ActionResult Create([Bind(Include = "MovimentacaoID,Tipo,Valor,BalancoID")] Movimentacao movimentacao)
+        public ActionResult Create(Movimentacao movimentacao)
         {
             try
             {
@@ -94,7 +95,7 @@ namespace AfincoApp.Controllers
                 {
                     db.Movimentacoes.Add(movimentacao);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Edit","Balancos", new {id = movimentacao.BalancoID });
                 }
 
                 ViewBag.BalancoID = new SelectList(db.Balancos, "BalancoID", "BalancoID", movimentacao.BalancoID);
@@ -124,7 +125,7 @@ namespace AfincoApp.Controllers
                 {
                     return HttpNotFound();
                 }
-                ViewBag.BalancoID = new SelectList(db.Balancos, "BalancoID", "BalancoID", movimentacao.BalancoID);
+                ViewBag.BalancoID = movimentacao.BalancoID;
                 return View(movimentacao);
             }
             catch (Exception ex)
@@ -143,7 +144,7 @@ namespace AfincoApp.Controllers
         [ValidateAntiForgeryToken]
         [Common.PermissaoIntermediaria]
 
-        public ActionResult Edit([Bind(Include = "MovimentacaoID,Tipo,Valor,BalancoID")] Movimentacao movimentacao)
+        public ActionResult Edit( Movimentacao movimentacao)
         {
             try
             {
@@ -151,7 +152,7 @@ namespace AfincoApp.Controllers
                 {
                     db.Entry(movimentacao).State = EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Edit", "Balancos", new { id = movimentacao.BalancoID });
                 }
                 ViewBag.BalancoID = new SelectList(db.Balancos, "BalancoID", "BalancoID", movimentacao.BalancoID);
                 return View(movimentacao);
@@ -176,6 +177,7 @@ namespace AfincoApp.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
                 Movimentacao movimentacao = db.Movimentacoes.Find(id);
+                ViewBag.BalancoID = movimentacao.BalancoID;
                 if (movimentacao == null)
                 {
                     return HttpNotFound();
@@ -201,7 +203,7 @@ namespace AfincoApp.Controllers
                 Movimentacao movimentacao = db.Movimentacoes.Find(id);
                 db.Movimentacoes.Remove(movimentacao);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Edit", "Balancos", new { id = movimentacao.BalancoID });
             }
             catch (Exception ex)
             {
