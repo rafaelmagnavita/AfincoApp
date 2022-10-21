@@ -38,8 +38,9 @@
                 <input type="submit" value="Criar" class="btn btn-success" />
             </div>
             <div class="m-2">
-                <a class="btn btn-primary mt-5" href="~/Clientes/Index">Voltar &raquo;</a>
+            <a class="btn btn-primary mt-5" href="@Url.Action("Details","Clientes", new { id = Model.ClienteID })">Voltar &raquo;</a>
             </div>
+
         </div>
     </div>
 }

@@ -601,12 +601,10 @@
     <Content Include="Views\Balancos\Delete.cshtml" />
     <Content Include="Views\Balancos\Details.cshtml" />
     <Content Include="Views\Balancos\Edit.cshtml" />
-    <Content Include="Views\Balancos\Index.cshtml" />
     <Content Include="Views\Movimentacoes\Create.cshtml" />
     <Content Include="Views\Movimentacoes\Delete.cshtml" />
     <Content Include="Views\Movimentacoes\Details.cshtml" />
     <Content Include="Views\Movimentacoes\Edit.cshtml" />
-    <Content Include="Views\Movimentacoes\Index.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper.js.flow" />
@@ -618,6 +616,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Balancos\_scripts.cshtml" />
+    <Content Include="Views\Balancos\Importar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

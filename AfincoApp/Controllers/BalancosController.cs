@@ -20,13 +20,50 @@ namespace AfincoApp.Controllers
 
         private AfincoContext db = new AfincoContext();
 
-        // GET: Balancos
-        public ActionResult Index()
+        // GET: Balancos/Importar/
+
+        public ActionResult Importar()
         {
             try
             {
-                var balancos = db.Balancos.Include(b => b.Cliente);
-                return View(balancos.ToList());
+                ViewBag.Movimentacoes = Common.Importar();
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return View("~/Views/Home/Index.cshtml");
+            }
+        }
+
+        // POST: Balancos/Importar
+        // Para se proteger de mais ataques, habilite as propriedades específicas às quais você quer se associar. Para 
+        // obter mais detalhes, veja https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Common.PermissaoIntermediaria]
+
+        public ActionResult Importar(Balanco balanco)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Balancos.Add(balanco);
+                    db.SaveChanges();
+                    foreach (Movimentacao movimentacao in Common.Movimentacoes)
+                    {
+                        if (ModelState.IsValid)
+                        {
+                            movimentacao.BalancoID = balanco.BalancoID;
+                            db.Movimentacoes.Add(movimentacao);
+                            db.SaveChanges();
+                        }
+                    }
+
+                    return RedirectToAction("Edit", "Balancos", new { id = balanco.BalancoID });
+                }
+                return RedirectToAction("Edit", "Balancos", new { id = balanco.BalancoID });
             }
             catch (Exception ex)
             {

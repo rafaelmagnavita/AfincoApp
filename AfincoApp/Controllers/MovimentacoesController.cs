@@ -20,21 +20,6 @@ namespace AfincoApp.Controllers
     {
         private AfincoContext db = new AfincoContext();
 
-        // GET: Movimentacoes
-        public ActionResult Index()
-        {
-            try
-            {
-                var movimentacoes = db.Movimentacoes.Include(m => m.Balanco);
-                return View(movimentacoes.ToList());
-            }
-            catch (Exception ex)
-            {
-                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
-                return View("~/Views/Home/Index.cshtml");
-            }
-
-        }
 
         // GET: Movimentacoes/Details/5
 
