@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AfincoApp.DAL;
 using AfincoApp.Models;
+using Excel = Microsoft.Office.Interop.Excel;
+
 
 namespace AfincoApp.Utils
 {
@@ -150,6 +153,73 @@ namespace AfincoApp.Utils
                     despesa = despesa + movimentacao.Valor;
             }
             return despesa;
+        }
+
+        public static List<Movimentacao> ImportarExcel(string filename, bool headers = true)
+        {
+            try
+            {
+                List<Movimentacao> movimentacoes = new List<Movimentacao>();
+                var _xl = new Excel.Application();
+                var wb = _xl.Workbooks.Open(filename);
+                var sheets = wb.Sheets;
+                DataSet dataSet = null;
+                if (sheets != null && sheets.Count != 0)
+                {
+                    dataSet = new DataSet();
+                    foreach (var item in sheets)
+                    {
+                        var sheet = (Excel.Worksheet)item;
+                        DataTable dt = null;
+                        if (sheet != null)
+                        {
+                            dt = new DataTable();
+                            var ColumnCount = ((Excel.Range)sheet.UsedRange.Rows[1, Type.Missing]).Columns.Count;
+                            var rowCount = ((Excel.Range)sheet.UsedRange.Columns[1, Type.Missing]).Rows.Count;
+
+                            for (int j = 0; j < ColumnCount; j++)
+                            {
+                                var cell = (Excel.Range)sheet.Cells[1, j + 1];
+                                var column = new DataColumn(headers ? cell.Value : string.Empty);
+                                dt.Columns.Add(column);
+                            }
+
+                            for (int i = 0; i < rowCount; i++)
+                            {
+                                var r = dt.NewRow();
+                                for (int j = 0; j < ColumnCount; j++)
+                                {
+                                    var cell = (Excel.Range)sheet.Cells[i + 1 + (headers ? 1 : 0), j + 1];
+                                    r[j] = cell.Value;
+                                }
+                                dt.Rows.Add(r);
+                            }
+
+                        }
+                        dataSet.Tables.Add(dt);
+                        int count = dt.Rows.Count;
+                        for (int i = 1; i < count; i++)
+                        {
+                            Movimentacao movimentacao = new Movimentacao();
+                            movimentacao.Valor = (decimal)dt.Rows[i][1];
+                            if (movimentacao.Valor < 0)
+                                movimentacao.Tipo = Enums.TiposMovimentacao.Despesa;
+                            else
+                                movimentacao.Tipo = Enums.TiposMovimentacao.Lucro;
+                            movimentacoes.Add(movimentacao);
+                        }
+
+                    }
+                }
+                _xl.Quit();
+                return movimentacoes;
+            }
+            catch (Exception ex)
+            {
+                List<Movimentacao> movimentacoes = new List<Movimentacao>();
+                Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                return movimentacoes;
+            }
         }
         #endregion
 

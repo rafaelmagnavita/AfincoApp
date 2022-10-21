@@ -26,7 +26,8 @@ namespace AfincoApp.Controllers
         {
             try
             {
-                ViewBag.Movimentacoes = Common.Importar();
+                List<Movimentacao> movimentacoes = Common.ImportarExcel(@"C:\Logs\teste.xlsx", true);
+                ViewBag.Movimentacoes = movimentacoes;
                 return View();
             }
             catch (Exception ex)
@@ -43,7 +44,7 @@ namespace AfincoApp.Controllers
         [ValidateAntiForgeryToken]
         [Common.PermissaoIntermediaria]
 
-        public ActionResult Importar(Balanco balanco)
+        public ActionResult Importar(Balanco balanco, List<Movimentacao> movimentacoes)
         {
             try
             {
@@ -51,7 +52,7 @@ namespace AfincoApp.Controllers
                 {
                     db.Balancos.Add(balanco);
                     db.SaveChanges();
-                    foreach (Movimentacao movimentacao in Common.Movimentacoes)
+                    foreach (Movimentacao movimentacao in movimentacoes)
                     {
                         if (ModelState.IsValid)
                         {
@@ -67,6 +68,14 @@ namespace AfincoApp.Controllers
             }
             catch (Exception ex)
             {
+                Balanco balanco1 = db.Balancos.Find(balanco.BalancoID);
+                foreach (Movimentacao movimentacao in db.Movimentacoes.Where(a => a.BalancoID == balanco.BalancoID))
+                {
+                    db.Movimentacoes.Remove(movimentacao);
+                    db.SaveChanges();
+                }
+                db.Balancos.Remove(balanco1);
+                db.SaveChanges();
                 Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
                 return View("~/Views/Home/Index.cshtml");
             }
