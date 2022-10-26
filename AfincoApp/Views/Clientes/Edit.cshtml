@@ -48,16 +48,6 @@
                 </span>
             </a>
         </div>
-
-        <div class="col-sm">
-            <input type="file" id="fileToUpload" class="form-control" /> <br />
-            <button id="upload" class="btn btn-primary">Upload</button>
-            @*<a class="btn btn-outline-success mt-lg-5 mb-5" href="@Url.Action("Importar","Balancos", new { ClienteID = Model.ClienteID })">
-                    <span class="text-center">
-                        <i class="fas fa-plus"></i>
-                    </span>
-                </a>*@
-        </div>
     </div>
     <thead>
         <tr>
@@ -110,12 +100,24 @@
 
 </table>
 
+<div class="col-sm">
+    <h6 class="m-1">Importar Balanço:</h6>
+    <input type="file" id="fileToUpload" class="m-1 form-control" /> <br />
+    <button id="upload" class="btn btn-primary">Carregar</button>
+    @*<a class="btn btn-outline-success mt-lg-5 mb-5" href="@Url.Action("Importar","Balancos", new { ClienteID = Model.ClienteID })">
+            <span class="text-center">
+                <i class="fas fa-plus"></i>
+            </span>
+        </a>*@
+</div>
+
+<hr />
 <div><a class="btn btn-primary mt-5" href="~/Clientes/Index">Voltar &raquo;</a></div>
 
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-<script type="text/javascript">
+    <script type="text/javascript">
 
         $(document).ready(function () {
 
@@ -204,6 +206,6 @@
         });
 
 
-</script>
+    </script>
 }
 
