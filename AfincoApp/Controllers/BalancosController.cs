@@ -26,7 +26,7 @@ namespace AfincoApp.Controllers
         {
             try
             {
-                List<Movimentacao> movimentacoes = Common.ImportarExcel(@"C:\Logs\teste.xlsx", true);
+                List<Movimentacao> movimentacoes = Common.ImportarExcel("", @"C:\Logs\teste.xlsx");
                 ViewBag.Movimentacoes = movimentacoes;
                 return View();
             }

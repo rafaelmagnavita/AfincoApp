@@ -13,7 +13,7 @@ namespace AfincoApp.Utils
         {
             try
             {
-                List<Movimentacao> movimentacoes = Common.ImportarExcel(@"C:\Logs\teste.xlsx", true);
+                List<Movimentacao> movimentacoes = Common.ImportarExcel("teste.xlsx", @"C:\Logs\");
                 return movimentacoes;
             }
             catch (Exception ex)
