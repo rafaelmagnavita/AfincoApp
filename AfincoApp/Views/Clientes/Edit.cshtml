@@ -103,6 +103,17 @@
 <div class="col-sm">
     <h6 class="m-1">Importar Balanço:</h6>
     <input type="file" id="fileToUpload" class="m-1 form-control" /> <br />
+    <p>
+        <a class="btn btn-primary m-1" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Avançado
+        </a>
+    </p>
+    <div class="collapse" id="collapseExample">
+        <hr />
+        <b>Coluna Única?</b><input type="checkbox" class="select-checkbox" id="unica" /> 
+        <b>Separador (;.,/):</b><input type="text" class="form-control-sm" id="separador" disabled="disabled"/> 
+        <hr />
+    </div>
     <button id="upload" class="btn btn-primary">Carregar</button>
     @*<a class="btn btn-outline-success mt-lg-5 mb-5" href="@Url.Action("Importar","Balancos", new { ClienteID = Model.ClienteID })">
             <span class="text-center">
@@ -110,6 +121,8 @@
             </span>
         </a>*@
 </div>
+
+
 
 <hr />
 <div><a class="btn btn-primary mt-5" href="~/Clientes/Index">Voltar &raquo;</a></div>
@@ -120,6 +133,17 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+
+            $('#unica').on('change', function () {
+
+                if (this.checked) {
+                    $("#separador").removeAttr('disabled');
+                } else {
+
+                    $("#separador").attr('disabled', 'disabled');
+                    $('#separador').val('');
+                }
+            });
 
             $("#upload").click(function () {
 
