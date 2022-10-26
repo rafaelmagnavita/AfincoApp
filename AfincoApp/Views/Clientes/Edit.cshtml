@@ -48,12 +48,15 @@
                 </span>
             </a>
         </div>
+
         <div class="col-sm">
-            <a class="btn btn-outline-success mt-lg-5 mb-5" href="@Url.Action("Importar","Balancos", new { ClienteID = Model.ClienteID })">
-                <span class="text-center">
-                    <i class="fas fa-plus"></i>
-                </span>
-            </a>
+            <input type="file" id="fileToUpload" class="form-control" /> <br />
+            <button id="upload" class="btn btn-primary">Upload</button>
+            @*<a class="btn btn-outline-success mt-lg-5 mb-5" href="@Url.Action("Importar","Balancos", new { ClienteID = Model.ClienteID })">
+                    <span class="text-center">
+                        <i class="fas fa-plus"></i>
+                    </span>
+                </a>*@
         </div>
     </div>
     <thead>
@@ -115,6 +118,42 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+
+            $("#upload").click(function () {
+
+                if (window.FormData == undefined)
+                    alert("Error: FormData is undefined");
+
+                else {
+                    var fileUpload = $("#fileToUpload").get(0);
+                    var files = fileUpload.files;
+
+                    var fileData = new FormData();
+
+                    fileData.append(files[0].name, files[0]);
+
+                    $.ajax({
+                        url: '/Balancos/LerCaminho',
+                        type: 'post',
+                        datatype: 'json',
+                        contentType: false,
+                        processData: false,
+                        async: false,
+                        data: fileData,
+                        success: function (response) {
+                            alert(response);
+                            setTimeout(function () {
+
+                                window.location.href = '@Url.Action("Importar", "Balancos", new { ClienteID = Model.ClienteID })';
+
+                            }, 1000);
+                        }
+                    });
+                }
+
+            });
+
+
             var table = $('#grid-index').DataTable({
                 dom: 'Bfrtip',
                 buttons: [

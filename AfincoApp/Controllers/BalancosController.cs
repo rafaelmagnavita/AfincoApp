@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -20,20 +21,84 @@ namespace AfincoApp.Controllers
 
         private AfincoContext db = new AfincoContext();
 
+        public JsonResult LerCaminho()
+        {
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    HttpFileCollectionBase files = Request.Files;
+
+                    HttpPostedFileBase file = files[0];
+                    string fileName = file.FileName;
+                    string path = "";
+
+                    Directory.CreateDirectory(Server.MapPath("~/uploads/"));
+                    if (fileName.EndsWith("xlsx"))
+                        path = Path.Combine(Server.MapPath("~/uploads/"), "import.xlsx");
+                    else if (fileName.EndsWith("xls"))
+                        path = Path.Combine(Server.MapPath("~/uploads/"), "import.xls");
+                    // save the file
+                    if (!fileName.EndsWith("xlsx") || !fileName.EndsWith("xlsx"))
+                        return Json("Formato Não Suportado");
+
+                    file.SaveAs(path);
+
+                    return Json("Arquivo Carregado");
+                }
+
+                catch (Exception e)
+                {
+                    return Json("Erro ao Carregar Arquivo: " + e.Message);
+                }
+            }
+
+            return Json("no files were selected !");
+        }
+
         // GET: Balancos/Importar/
 
         public ActionResult Importar(int ClienteID)
         {
             try
             {
+                List<Movimentacao> movimentacoes = new List<Movimentacao>();
                 Balanco balanco = new Balanco();
-                List<Movimentacao> movimentacoes = Common.ImportarExcel(@"C:\Logs\teste.xlsx");
+
+                string path = ControllerContext.HttpContext.Server.MapPath("~/uploads/import.xlsx");
+
+
+                if (System.IO.File.Exists(path))
+                {
+                    movimentacoes  = Common.ImportarExcel(path);
+                }
+
+                path = ControllerContext.HttpContext.Server.MapPath("~/uploads/import.xls");
+
+                if (System.IO.File.Exists(path))
+                {
+                   movimentacoes = Common.ImportarExcel(path);
+                }
                 Common.Movimentacoes = movimentacoes;
                 balanco.ClienteID = ClienteID;
                 return View(balanco);
             }
             catch (Exception ex)
             {
+                //delete file
+                string path = ControllerContext.HttpContext.Server.MapPath("~/uploads/import.xlsx");
+
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+
+                path = ControllerContext.HttpContext.Server.MapPath("~/uploads/import.xls");
+
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
                 Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
                 return View("~/Views/Home/Index.cshtml");
             }
@@ -67,6 +132,21 @@ namespace AfincoApp.Controllers
                         }
                     }
 
+                    //delete file
+                    string path = ControllerContext.HttpContext.Server.MapPath("~/uploads/import.xlsx");
+
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                    }
+
+                    path = ControllerContext.HttpContext.Server.MapPath("~/uploads/import.xls");
+
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                    }
+
                     return RedirectToAction("Edit", "Balancos", new { id = balanco.BalancoID });
                 }
                 return RedirectToAction("Edit", "Balancos", new { id = balanco.BalancoID });
@@ -82,6 +162,20 @@ namespace AfincoApp.Controllers
                 db.Balancos.Remove(balanco1);
                 db.SaveChanges();
                 Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                //delete file
+                string path = ControllerContext.HttpContext.Server.MapPath("~/uploads/import.xlsx");
+
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+
+                path = ControllerContext.HttpContext.Server.MapPath("~/uploads/import.xls");
+
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
                 return View("~/Views/Home/Index.cshtml");
             }
 
