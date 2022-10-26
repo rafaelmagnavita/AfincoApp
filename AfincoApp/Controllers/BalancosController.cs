@@ -40,16 +40,16 @@ namespace AfincoApp.Controllers
                         path = Path.Combine(Server.MapPath("~/uploads/"), "import.xls");
                     // save the file
                     if (!fileName.EndsWith("xlsx") || !fileName.EndsWith("xlsx"))
-                        return Json("Formato Não Suportado");
+                        return Json("Esse tipo de arquivo não é suportado!");
 
                     file.SaveAs(path);
 
-                    return Json("Arquivo Carregado");
+                    return Json(1);
                 }
 
                 catch (Exception e)
                 {
-                    return Json("Erro ao Carregar Arquivo: " + e.Message);
+                    return Json("Erro:" + e.Message);
                 }
             }
 

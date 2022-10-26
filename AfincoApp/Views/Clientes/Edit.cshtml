@@ -115,7 +115,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
+<script type="text/javascript">
 
         $(document).ready(function () {
 
@@ -141,12 +141,19 @@
                         async: false,
                         data: fileData,
                         success: function (response) {
-                            alert(response);
+                            if (response == 1) {
+
+                            alert("Arquivo Carregado! Aguarde Redirecionamento!");
                             setTimeout(function () {
 
                                 window.location.href = '@Url.Action("Importar", "Balancos", new { ClienteID = Model.ClienteID })';
 
                             }, 1000);
+
+                            }
+                            else { alert(response); }
+
+
                         }
                     });
                 }
@@ -197,6 +204,6 @@
         });
 
 
-    </script>
+</script>
 }
 
