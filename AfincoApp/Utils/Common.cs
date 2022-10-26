@@ -10,14 +10,17 @@ using System.Web.Mvc;
 using AfincoApp.DAL;
 using AfincoApp.Models;
 using Excel = Microsoft.Office.Interop.Excel;
-using Syncfusion.XlsIO;
 using System.Reflection;
-
+using MiniExcelLibs;
 
 namespace AfincoApp.Utils
 {
     public class Common
     {
+        #region Variaveis
+        public static List<Movimentacao> Movimentacoes { get; set; } = null;
+
+        #endregion
         #region filtros
         public class SessionExpireFilterAttribute : ActionFilterAttribute
         {
@@ -159,16 +162,24 @@ namespace AfincoApp.Utils
             return despesa;
         }
 
-        public static List<Movimentacao> ImportarExcel(string sheetName, string path)
+        public static List<Movimentacao> ImportarExcel(string path)
         {
             try
             {
-                ExcelEngine excelEngine = new ExcelEngine();
-                IApplication application = excelEngine.Excel;
-                application.DefaultVersion = ExcelVersion.Xlsx;
+                var rows = MiniExcel.Query(path).ToList();
+                List<Movimentacao> movimentacoes = new List<Movimentacao>();
+                for (int i = 0; i < rows.Count; i++)
+                {
+                    Movimentacao movimentacao = new Movimentacao();
+                    movimentacao.Valor = (decimal)rows[i].A;
+                    if (movimentacao.Valor < 0)
+                        movimentacao.Tipo = Enums.TiposMovimentacao.Despesa;
+                    else
+                        movimentacao.Tipo = Enums.TiposMovimentacao.Lucro;
+                    movimentacoes.Add(movimentacao);
+                }
+                return movimentacoes;
 
-                FileStream inputStream = new FileStream("Sample.xlsx", FileMode.Open, FileAccess.Read);
-                IWorkbook workbook = application.Workbooks.Open(inputStream);
             }
             catch (Exception ex)
             {

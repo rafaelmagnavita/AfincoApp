@@ -22,13 +22,15 @@ namespace AfincoApp.Controllers
 
         // GET: Balancos/Importar/
 
-        public ActionResult Importar()
+        public ActionResult Importar(int ClienteID)
         {
             try
             {
-                List<Movimentacao> movimentacoes = Common.ImportarExcel("", @"C:\Logs\teste.xlsx");
-                ViewBag.Movimentacoes = movimentacoes;
-                return View();
+                Balanco balanco = new Balanco();
+                List<Movimentacao> movimentacoes = Common.ImportarExcel(@"C:\Logs\teste.xlsx");
+                Common.Movimentacoes = movimentacoes;
+                balanco.ClienteID = ClienteID;
+                return View(balanco);
             }
             catch (Exception ex)
             {
@@ -44,7 +46,7 @@ namespace AfincoApp.Controllers
         [ValidateAntiForgeryToken]
         [Common.PermissaoIntermediaria]
 
-        public ActionResult Importar(Balanco balanco, List<Movimentacao> movimentacoes)
+        public ActionResult Importar(Balanco balanco)
         {
             try
             {
@@ -52,6 +54,9 @@ namespace AfincoApp.Controllers
                 {
                     db.Balancos.Add(balanco);
                     db.SaveChanges();
+
+                    List<Movimentacao> movimentacoes = Common.Movimentacoes;
+
                     foreach (Movimentacao movimentacao in movimentacoes)
                     {
                         if (ModelState.IsValid)
