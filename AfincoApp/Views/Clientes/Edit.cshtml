@@ -4,6 +4,8 @@
 @using AfincoApp.Models;
 
 @{
+    bool unica = false;
+    string separador = "";
     ViewBag.Title = "Cliente " + Model.Nome;
     Usuario usuario = (Usuario)Session["usuario"];
 }
@@ -110,8 +112,8 @@
     </p>
     <div class="collapse" id="collapseExample">
         <hr />
-        <b>Coluna Única?</b><input type="checkbox" class="select-checkbox" id="unica" /> 
-        <b>Separador (;.,/):</b><input type="text" class="form-control-sm" id="separador" disabled="disabled"/> 
+        <b>Coluna Única?</b><input type="checkbox" class="select-checkbox" id="unica" />
+        <b>Separador (;.,/):</b><input type="text" class="form-control-sm" id="separador" disabled="disabled" />
         <hr />
     </div>
     <button id="upload" class="btn btn-primary">Carregar</button>
@@ -130,7 +132,30 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
     <script type="text/javascript">
+
+    function AddSeparador(separador) {
+        var s = separador;
+        console.log(s);
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Separa")',
+                data: '{separador: ' + JSON.stringify(s) + '}',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (separador) {
+                    alert(separador);
+                },
+                error: function () {
+                    alert("Erro ao inserir o separador");
+                }
+            });
+    }
+    </script>
+    <script type="text/javascript">
+
+
 
         $(document).ready(function () {
 
@@ -143,6 +168,11 @@
                     $("#separador").attr('disabled', 'disabled');
                     $('#separador').val('');
                 }
+            });
+
+            $('#separador').on('change', function () {
+                let separador = $("#separador").val();
+                AddSeparador(separador);
             });
 
             $("#upload").click(function () {
@@ -172,7 +202,7 @@
                             alert("Arquivo Carregado! Aguarde Redirecionamento!");
                             setTimeout(function () {
 
-                                window.location.href = '@Url.Action("Importar", "Balancos", new { ClienteID = Model.ClienteID })';
+                                window.location.href = '@Url.Action("Importar", "Balancos", new { ClienteID = Model.ClienteID, Unica = unica, Separador = separador })';
 
                             }, 1000);
 

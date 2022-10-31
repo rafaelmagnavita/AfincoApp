@@ -19,6 +19,7 @@ namespace AfincoApp.Utils
     {
         #region Variaveis
         public static List<Movimentacao> Movimentacoes { get; set; } = null;
+        public static string Separador { get; set; } = null;
 
         #endregion
         #region filtros

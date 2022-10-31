@@ -21,6 +21,17 @@ namespace AfincoApp.Controllers
 
         private AfincoContext db = new AfincoContext();
 
+        public JsonResult Separa(string separador)
+        {
+            if (Request.Files.Count > 0)
+            {
+                Common.Separador = separador;
+                return Json(separador);
+            }
+
+            return Json("no files were selected !");
+        }
+
         public JsonResult LerCaminho()
         {
             if (Request.Files.Count > 0)
@@ -58,10 +69,11 @@ namespace AfincoApp.Controllers
 
         // GET: Balancos/Importar/
 
-        public ActionResult Importar(int ClienteID)
+        public ActionResult Importar(int ClienteID, bool Unica = false, string Separador = "")
         {
             try
             {
+                
                 List<Movimentacao> movimentacoes = new List<Movimentacao>();
                 Balanco balanco = new Balanco();
 
@@ -81,6 +93,7 @@ namespace AfincoApp.Controllers
                 }
                 Common.Movimentacoes = movimentacoes;
                 balanco.ClienteID = ClienteID;
+                Common.Separador = "";
                 return View(balanco);
             }
             catch (Exception ex)
@@ -100,6 +113,8 @@ namespace AfincoApp.Controllers
                     System.IO.File.Delete(path);
                 }
                 Common.LogErros(ex.TargetSite.ToString() + ex.Source.ToString() + ex.Message.ToString());
+                Common.Separador = "";
+
                 return View("~/Views/Home/Index.cshtml");
             }
         }
@@ -146,7 +161,7 @@ namespace AfincoApp.Controllers
                     {
                         System.IO.File.Delete(path);
                     }
-
+                    Common.Separador = "";
                     return RedirectToAction("Edit", "Balancos", new { id = balanco.BalancoID });
                 }
                 return RedirectToAction("Edit", "Balancos", new { id = balanco.BalancoID });
@@ -176,6 +191,8 @@ namespace AfincoApp.Controllers
                 {
                     System.IO.File.Delete(path);
                 }
+                Common.Separador = "";
+
                 return View("~/Views/Home/Index.cshtml");
             }
 

@@ -12,6 +12,7 @@ using AfincoApp.Utils;
 
 namespace AfincoApp.Controllers
 {
+
     [Authorize]
     [Common.SessionExpireFilter]
 
@@ -19,6 +20,19 @@ namespace AfincoApp.Controllers
     public class ClientesController : Controller
     {
         private AfincoContext db = new AfincoContext();
+
+        [HttpPost]
+        public ActionResult Separa(string separador)
+        {
+            if (separador != null)
+            {
+                Common.Separador = separador;
+                return Json(separador);
+            }
+
+            return Json("no files were selected !");
+        }
+
 
         // GET: Clientes
         public ActionResult Index()
