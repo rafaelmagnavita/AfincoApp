@@ -131,6 +131,7 @@ namespace AfincoApp.Controllers
                 {
                     return HttpNotFound();
                 }
+                Common.Separador = null;
                 return View(cliente);
             }
             catch (Exception ex)
@@ -155,8 +156,10 @@ namespace AfincoApp.Controllers
                 {
                     db.Entry(cliente).State = EntityState.Modified;
                     db.SaveChanges();
+                    Common.Separador = null;
                     return RedirectToAction("Index");
                 }
+                Common.Separador = null;
                 return View(cliente);
             }
             catch (Exception ex)
