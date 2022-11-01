@@ -169,15 +169,36 @@ namespace AfincoApp.Utils
             {
                 var rows = MiniExcel.Query(path).ToList();
                 List<Movimentacao> movimentacoes = new List<Movimentacao>();
-                for (int i = 0; i < rows.Count; i++)
+                if (Common.Separador == null)
                 {
-                    Movimentacao movimentacao = new Movimentacao();
-                    movimentacao.Valor = (decimal)rows[i].A;
-                    if (movimentacao.Valor < 0)
-                        movimentacao.Tipo = Enums.TiposMovimentacao.Despesa;
-                    else
-                        movimentacao.Tipo = Enums.TiposMovimentacao.Lucro;
-                    movimentacoes.Add(movimentacao);
+                    for (int i = 0; i < rows.Count; i++)
+                    {
+
+                        Movimentacao movimentacao = new Movimentacao();
+                        movimentacao.Valor = (decimal)rows[i].A;
+                        if (movimentacao.Valor < 0)
+                            movimentacao.Tipo = Enums.TiposMovimentacao.Despesa;
+                        else
+                            movimentacao.Tipo = Enums.TiposMovimentacao.Lucro;
+                        movimentacoes.Add(movimentacao);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < rows.Count; i++)
+                    {
+
+                        Movimentacao movimentacao = new Movimentacao();
+                        string movimentacaop = (string)rows[i].A;
+                        char separador = char.Parse(Common.Separador);
+                        var teste = (List<string>)movimentacaop.Split(separador).ToList();
+                        movimentacao.Valor = decimal.Parse(teste[0]);
+                        if (movimentacao.Valor < 0)
+                            movimentacao.Tipo = Enums.TiposMovimentacao.Despesa;
+                        else
+                            movimentacao.Tipo = Enums.TiposMovimentacao.Lucro;
+                        movimentacoes.Add(movimentacao);
+                    }
                 }
                 return movimentacoes;
 
